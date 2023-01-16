@@ -21,10 +21,19 @@ services:
           errors:
             - BadRequestError
             - UnauthorizedError
+          examples:
+            - path-parameters:
+                deal_key: abcd1234
+                partnership_key: my-partnership-key
+                stack_key: "01234"
+              response: 
+                body:
+                  message: ok
+                  status: 200
 
 types:
   DealId: string 
-  
+
   PartnershipResponse: 
     properties:
       message: string 
