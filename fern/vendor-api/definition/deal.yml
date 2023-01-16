@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+services:
+  http:
+    DealService:
+      base-path: /deals
+      auth: true 
+      endpoints:
+        assignPartnership:
+          display-name: Assign partnership to deal
+          docs: Assign the provided partnership to the provided deal.
+          method: POST 
+          path: /{deal_key}/assignment/{partnership_key}/{stack_key}
+          path-parameters:
+            deal_key: 
+              type: string 
+              docs: Unique identifier of the deal
+            partnership_key: string 
+            stack_key: string 
+          response: PartnershipResponse
+          errors:
+            - BadRequestError
+            - UnauthorizedError
+
+types:
+  DealId: string 
+  
+  PartnershipResponse: 
+    properties:
+      message: string 
+      status: integer 
+
+errors: 
+  BadRequestError:
+    status-code: 400
+    type: PartnershipResponse
+  UnauthorizedError:
+    status-code: 401 
+    type: PartnershipResponse
+

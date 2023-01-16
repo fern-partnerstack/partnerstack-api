@@ -1,0 +1,8 @@
+name: vendor-api
+display-name: Vendor API
+auth: basic
+environments:
+  Production: https://api.partnerstack.com/api/v2/partnerships
+default-environment: Production
+error-discrimination:
+  strategy: status-code
