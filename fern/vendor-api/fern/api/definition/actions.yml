@@ -80,9 +80,9 @@ services:
             body:
               extends:
                 - commons.BaseRequestBody
-          response: _InlinedType96
+          response: RecordActionResponse
 
-        _unnamedOperation10:
+        archive:
           path: /{action_key}
           method: DELETE
           docs: >-
@@ -93,22 +93,9 @@ services:
             action_key:
               docs: Unique identifier for actions
               type: string
-          response: _InlinedType97
+          response: ArchiveActionResponse
 
 types:
-  _InlinedType82:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   Action:
     docs: >-
       An **Action** represents a specific action a partner or customer took on
@@ -147,7 +134,7 @@ types:
     properties:
       data: ListAllActionsData
 
-  _InlinedType93:
+  RecordActionRequestBody:
     docs: >-
       **Actions** represent a specific action a partner or customer took on your
       platform
@@ -171,14 +158,14 @@ types:
         docs: The number of times the action was performed
         type: optional<integer>
 
-  _InlinedType95:
+  RecordActionResponseData:
     extends:
       - commons.BaseObject
-      - _InlinedType93
+      - RecordActionRequestBody
 
-  _InlinedType96:
+  RecordActionResponse:
     extends: commons.BaseResponse
     properties:
-      data: _InlinedType95
+      data: RecordActionResponseData
 
 
