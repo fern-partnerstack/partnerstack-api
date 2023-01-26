@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  commons: commons.yml 
+
+services:
+  http:
+    ActionsService:
+      auth: true
+      base-path: /v2/actions
+      endpoints:
+        listAll:
+          path: ""
+          method: GET
+          docs: >-
+            Returns a list of your actions. The actions are returned sorted by
+            creation date by default, with the most recent actions appearing
+            first.
+          display-name: List all actions
+          request:
+            name: ListAllActionsRequest
+            query-parameters:
+              min_created:
+                docs: >-
+                  Applies a minimum epoch timestamp (ms) filter to the response
+                  `created_at`.
+                type: optional<integer>
+              max_created:
+                docs: >-
+                  Applies a maximum epoch timestamp (ms) filter to the response
+                  `created_at`.
+                type: optional<integer>
+              order_by:
+                docs: >-
+                  The field in which the results are ordered by. A `-` prefix
+                  denotes that the results are in descending order.
+                type: optional<string>
+              limit:
+                docs: >-
+                  A limit on the number of items to be returned. Limits can
+                  range between 1 and 250, and the default is 10.
+                type: optional<integer>
+              starting_after:
+                docs: >-
+                  A cursor for use in pagination, `starting_after` takes in an
+                  item key and the subsequent call will return the following
+                  items in the list. This is mutually exclusive with
+                  `ending_before`.
+                type: optional<string>
+              ending_before:
+                docs: >-
+                  A cursor for use in pagination, `ending_before` takes in an
+                  item key and the subsequent call will return the prior items
+                  in the list. This is mutually exclusive with `starting_after`.
+                type: optional<string>
+          response: ListActionsResponse
+
+types:
+  Action:
+    docs: >-
+      An **Action** represents a specific action a partner or customer took on
+      your platform
+    extends: commons.BaseItem
+    properties:
+      archived:
+        docs: The boolean flag which determines if the action is archived or not.
+        type: optional<boolean>
+      company: optional<commons.Company>
+      customer: optional<commons.Customer>
+      partnership_key:
+        docs: Unique key of this partnership.
+        type: optional<string>
+      type:
+        docs: The type of action the partner or customer performed
+        type: optional<string>
+      value:
+        docs: The number of times the action was performed
+        type: optional<integer>
+
+  AllActionsData:
+    properties:
+      has_more: optional<boolean>
+      items: optional<list<Action>>
+      total: optional<integer>
+
+  ListActionsResponse:
+    properties:
+      data: AllActionsData
+      message: string
+      status: integer

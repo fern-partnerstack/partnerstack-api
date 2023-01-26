@@ -1,0 +1,638 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+services:
+  http:
+    LeadsService:
+      auth: true
+      base-path: /v2/leads
+      endpoints:
+        "":
+          path: ""
+          method: GET
+          docs: |-
+            Returns a list of your leads. The leads are
+                returned sorted by creation date, with the most recent leads
+                appearing first.
+          display-name: List all leads
+          request:
+            query-parameters:
+              min_created:
+                docs: >-
+                  Applies a minimum epoch timestamp (ms) filter to the response
+                  `created_at`.
+                type: optional<integer>
+              max_created:
+                docs: >-
+                  Applies a maximum epoch timestamp (ms) filter to the response
+                  `created_at`.
+                type: optional<integer>
+              min_updated:
+                docs: >-
+                  Applies a minimum epoch timestamp (ms) filter to the response
+                  `updated_at`.
+                type: optional<integer>
+              max_updated:
+                docs: >-
+                  Applies a maximum epoch timestamp (ms) filter to the response
+                  `updated_at`.
+                type: optional<integer>
+              group:
+                docs: >-
+                  Will filter for partnerships who are in a group with the
+                  specified name. Name must have spaces and special characters
+                  removed.
+                type: optional<string>
+              partner_key:
+                docs: >-
+                  Will filter to a specific partnership's `partner_key`, which
+                  can be found using the partnership's get endpoint or from the
+                  partnership view in your PartnerStack dashboard.
+                type: optional<string>
+          response: _InlinedType161
+
+        _unnamedOperation15:
+          path: ""
+          method: POST
+          docs: Creates a lead with desired params.
+          display-name: Create a lead
+          request:
+            body:
+              extends:
+                - _InlinedType162
+          response: _InlinedType171
+
+        _unnamedOperation16:
+          path: /form-templates
+          method: GET
+          docs: Fetches the specified form templates for a lead.
+          display-name: Retrieve the form templates for a lead
+          request:
+            query-parameters:
+              group_key: optional<string>
+              mold_key: optional<string>
+          response: _InlinedType179
+
+        _unnamedOperation17:
+          path: /{lead_key}
+          method: GET
+          docs: |-
+            Retrieves the details of an existing
+                lead. You need only supply the unique lead key that was returned
+                upon lead creation.
+          display-name: Retrieve a lead
+          path-parameters:
+            lead_key:
+              docs: Unique identifier of lead.
+              type: string
+          response: _InlinedType185
+
+        _unnamedOperation18:
+          path: /{lead_key}
+          method: DELETE
+          docs: Archives the specified lead.
+          display-name: Archive a lead
+          path-parameters:
+            lead_key:
+              docs: Unique identifier of lead.
+              type: string
+          response: _InlinedType186
+
+        _unnamedOperation19:
+          path: /{lead_key}
+          method: PATCH
+          docs: |-
+            Updates the specified lead by setting the values
+                of the parameters passed. Any parameters not provided will be left
+                unchanged.
+          display-name: Update a lead
+          path-parameters:
+            lead_key:
+              docs: >-
+                Unique identifier of lead. Can be `external_key`, if one
+                configured for lead.
+              type: string
+          request:
+            body:
+              docs: >-
+                **Leads** are submitted by your partners to let your sales team
+                know of potential accounts that they may wish to work. Partners
+                may earn comission for qualified leads, or leads that eventually
+                become closed accounts.
+              properties:
+                amount:
+                  docs: Lead amount in **cents**
+                  type: optional<integer>
+                approved:
+                  docs: >-
+                    Used to indicate whether this lead has been approved to move
+                    past the closed stage
+                  type: optional<boolean>
+                customer_key:
+                  docs: >-
+                    Unique identifier to be used for Customer after a lead has
+                    been converted
+                  type: optional<string>
+                external_key:
+                  docs: >-
+                    Reference that can be used in place of the key. Often given
+                    as leads email
+                  type: optional<string>
+                fields: optional<list<_InlinedType187>>
+                group_key: optional<string>
+                meta:
+                  docs: >-
+                    Key value pairs that store additional information about this
+                    lead. First and last name required. Other eligible keys are
+                    based on Lead forms created. Use the /leads/form-template to
+                    view field names
+                  type: optional<map<string, unknown>>
+                mold_key: optional<string>
+                partner_key:
+                  docs: The unique key of the partner who submitted this lead
+                  type: optional<string>
+                status:
+                  docs: >-
+                    Current status of this lead. Must be one of either 'open',
+                    'closed', 'dead', 'closed won', or 'closed lost'
+                  type: optional<_InlinedType188>
+          response: _InlinedType194
+
+        _unnamedOperation20:
+          path: /{lead_key}/convert
+          method: POST
+          docs: Converts a lead to a customer
+          display-name: Convert a lead
+          path-parameters:
+            lead_key:
+              docs: Unique identifier of lead.
+              type: string
+          request:
+            body:
+              properties:
+                customer_key:
+                  docs: >-
+                    Unique identifier to be used for customer. If no value is
+                    passed external_key of lead being converted will be used as
+                    `customer_key`.
+                  type: optional<string>
+                email:
+                  docs: >-
+                    The customers email, must be a valid email. If no value is
+                    passed external_key of lead being converted will be used as
+                    `email`.
+                  type: optional<string>
+          response: _InlinedType201
+
+types:
+  _InlinedType155:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType156:
+    docs: >-
+      **Leads** are submitted by your partners to let your sales team know of
+      potential accounts that they may wish to work. Partners may earn comission
+      for qualified leads, or leads that eventually become closed accounts.
+    properties:
+      amount:
+        docs: Lead amount in **cents**
+        type: optional<integer>
+      approved:
+        docs: >-
+          Used to indicate whether this lead has been approved to move past the
+          closed stage
+        type: optional<boolean>
+      customer_key:
+        docs: >-
+          Unique identifier to be used for Customer after a lead has been
+          converted
+        type: optional<string>
+      external_key:
+        docs: >-
+          Reference that can be used in place of the key. Often given as leads
+          email
+        type: optional<string>
+      fields: optional<list<_InlinedType157>>
+      group_key: optional<string>
+      meta:
+        docs: >-
+          Key value pairs that store additional information about this lead.
+          First and last name required. Other eligible keys are based on Lead
+          forms created. Use the /leads/form-template to view field names
+        type: optional<map<string, unknown>>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who submitted this lead
+        type: optional<string>
+      status:
+        docs: >-
+          Current status of this lead. Must be one of either 'open', 'closed',
+          'dead', 'closed won', or 'closed lost'
+        type: optional<_InlinedType158>
+
+  _InlinedType159:
+    extends:
+      - _InlinedType155
+      - _InlinedType156
+
+  _InlinedType160:
+    properties:
+      has_more: optional<boolean>
+      items: optional<list<_InlinedType159>>
+
+  _InlinedType161:
+    properties:
+      data: _InlinedType160
+      message: string
+      status: integer
+
+  _InlinedType162:
+    docs: >-
+      **Leads** are submitted by your partners to let your sales team know of
+      potential accounts that they may wish to work. Partners may earn comission
+      for qualified leads, or leads that eventually become closed accounts.
+    properties:
+      amount:
+        docs: Lead amount in **cents**
+        type: optional<integer>
+      approved:
+        docs: >-
+          Used to indicate whether this lead has been approved to move past the
+          closed stage
+        type: optional<_InlinedType163>
+      external_key:
+        docs: >-
+          Reference that can be used in place of the key. Often given as leads
+          email
+        type: string
+      fields: optional<list<_InlinedType164>>
+      group_key: optional<string>
+      meta:
+        docs: >-
+          Key value pairs that store additional information about this lead.
+          First and last name required. Other eligable keys are based on Lead
+          forms created. Use the /leads/form-template to view field names
+        type: optional<map<string, unknown>>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who submitted this lead
+        type: string
+      status:
+        docs: >-
+          Current status of this lead. Must be one of either 'open', 'closed',
+          'dead', 'closed won', or 'closed lost'
+        type: _InlinedType165
+
+  _InlinedType166:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType167:
+    docs: >-
+      **Leads** are submitted by your partners to let your sales team know of
+      potential accounts that they may wish to work. Partners may earn comission
+      for qualified leads, or leads that eventually become closed accounts.
+    properties:
+      amount:
+        docs: Lead amount in **cents**
+        type: optional<integer>
+      approved:
+        docs: >-
+          Used to indicate whether this lead has been approved to move past the
+          closed stage
+        type: optional<boolean>
+      customer_key:
+        docs: >-
+          Unique identifier to be used for Customer after a lead has been
+          converted
+        type: optional<string>
+      external_key:
+        docs: >-
+          Reference that can be used in place of the key. Often given as leads
+          email
+        type: optional<string>
+      fields: optional<list<_InlinedType168>>
+      group_key: optional<string>
+      meta:
+        docs: >-
+          Key value pairs that store additional information about this lead.
+          First and last name required. Other eligible keys are based on Lead
+          forms created. Use the /leads/form-template to view field names
+        type: optional<map<string, unknown>>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who submitted this lead
+        type: optional<string>
+      status:
+        docs: >-
+          Current status of this lead. Must be one of either 'open', 'closed',
+          'dead', 'closed won', or 'closed lost'
+        type: optional<_InlinedType169>
+
+  _InlinedType170:
+    extends:
+      - _InlinedType166
+      - _InlinedType167
+
+  _InlinedType171:
+    properties:
+      data: _InlinedType170
+      message: string
+      status: integer
+
+  _InlinedType172:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType173:
+    docs: >-
+      **FormTemplates** are configurable on many of our supported objects. These
+      forms act as a way to collect additional information on object create
+    properties:
+      description:
+        docs: A description for users to better understand the form
+        type: optional<string>
+      fields: optional<list<_InlinedType174>>
+      groups: optional<list<_InlinedType177>>
+      name:
+        docs: The presented name of this form
+        type: optional<string>
+      title:
+        docs: A title to display to users when they fill out the form
+        type: optional<string>
+      type:
+        docs: The type of object within PartnerStack that this form translates to
+        type: optional<string>
+
+  _InlinedType178:
+    extends:
+      - _InlinedType172
+      - _InlinedType173
+
+  _InlinedType179:
+    properties:
+      data: list<_InlinedType178>
+      message: string
+      status: integer
+
+  _InlinedType180:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType181:
+    docs: >-
+      **Leads** are submitted by your partners to let your sales team know of
+      potential accounts that they may wish to work. Partners may earn comission
+      for qualified leads, or leads that eventually become closed accounts.
+    properties:
+      amount:
+        docs: Lead amount in **cents**
+        type: optional<integer>
+      approved:
+        docs: >-
+          Used to indicate whether this lead has been approved to move past the
+          closed stage
+        type: optional<boolean>
+      customer_key:
+        docs: >-
+          Unique identifier to be used for Customer after a lead has been
+          converted
+        type: optional<string>
+      external_key:
+        docs: >-
+          Reference that can be used in place of the key. Often given as leads
+          email
+        type: optional<string>
+      fields: optional<list<_InlinedType182>>
+      group_key: optional<string>
+      meta:
+        docs: >-
+          Key value pairs that store additional information about this lead.
+          First and last name required. Other eligible keys are based on Lead
+          forms created. Use the /leads/form-template to view field names
+        type: optional<map<string, unknown>>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who submitted this lead
+        type: optional<string>
+      status:
+        docs: >-
+          Current status of this lead. Must be one of either 'open', 'closed',
+          'dead', 'closed won', or 'closed lost'
+        type: optional<_InlinedType183>
+
+  _InlinedType184:
+    extends:
+      - _InlinedType180
+      - _InlinedType181
+
+  _InlinedType185:
+    properties:
+      data: _InlinedType184
+      message: string
+      status: integer
+
+  _InlinedType186:
+    properties:
+      message: string
+      status: integer
+
+  _InlinedType187:
+    docs: >-
+      **FieldData** combines attributes about a field with its submitted value
+      on target object
+    properties:
+      api_name:
+        docs: >-
+          API name of this field to be used on create / update / serialization.
+          Created at time of field creation but can be edited
+        type: optional<string>
+      external_type:
+        docs: Name that can be used for external systems
+        type: optional<string>
+      field_key:
+        docs: Key of field that is presented
+        type: optional<string>
+      help_text:
+        docs: The help text that is provided for this field
+        type: optional<string>
+      hidden:
+        docs: >-
+          Whether or not this field is displayed when filling out its attached
+          form
+        type: optional<boolean>
+      internal_name:
+        docs: >-
+          Internal name of this field. Created by PartnerStack at time of field
+          creation. Used when referencing field in created objects. Cannot be
+          edited.
+        type: optional<string>
+      name:
+        docs: Name of field that is presented
+        type: optional<string>
+      placeholder_text:
+        docs: The text of the placeholder that is provided for this field
+        type: optional<string>
+      position:
+        docs: >-
+          The position that this field will be displayed in relation to others
+          on the same form (index starts at 0)
+        type: optional<integer>
+      required:
+        docs: >-
+          Whether or not this field will be required when filling out its
+          attached form
+        type: optional<boolean>
+      type:
+        docs: >-
+          The type of field that will be presented (input, picklist, number
+          ect.)
+        type: optional<string>
+
+  _InlinedType188:
+    docs: >-
+      Current status of this lead. Must be one of either 'open', 'closed',
+      'dead', 'closed won', or 'closed lost'
+    enum:
+      - open
+      - closed
+      - dead
+      - closed won
+      - closed lost
+
+  _InlinedType189:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType190:
+    docs: >-
+      **Leads** are submitted by your partners to let your sales team know of
+      potential accounts that they may wish to work. Partners may earn comission
+      for qualified leads, or leads that eventually become closed accounts.
+    properties:
+      amount:
+        docs: Lead amount in **cents**
+        type: optional<integer>
+      approved:
+        docs: >-
+          Used to indicate whether this lead has been approved to move past the
+          closed stage
+        type: optional<boolean>
+      customer_key:
+        docs: >-
+          Unique identifier to be used for Customer after a lead has been
+          converted
+        type: optional<string>
+      external_key:
+        docs: >-
+          Reference that can be used in place of the key. Often given as leads
+          email
+        type: optional<string>
+      fields: optional<list<_InlinedType191>>
+      group_key: optional<string>
+      meta:
+        docs: >-
+          Key value pairs that store additional information about this lead.
+          First and last name required. Other eligible keys are based on Lead
+          forms created. Use the /leads/form-template to view field names
+        type: optional<map<string, unknown>>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who submitted this lead
+        type: optional<string>
+      status:
+        docs: >-
+          Current status of this lead. Must be one of either 'open', 'closed',
+          'dead', 'closed won', or 'closed lost'
+        type: optional<_InlinedType192>
+
+  _InlinedType193:
+    extends:
+      - _InlinedType189
+      - _InlinedType190
+
+  _InlinedType194:
+    properties:
+      data: _InlinedType193
+      message: string
+      status: integer
+
+  _InlinedType195:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType196:
+    docs: >-
+      **Customers** represent the users who have been referred by a **Partner**.
+      **Customers** are linked to the **Partner** that referred them through a
+      **partner_key** which must be provided on the Create Customer endpoint.
+      The **partner_key** is retrievable from `growsumo.data.partner_key`, which
+      is created by the `PartnerStackJS` snippet.
+    extends:
+      - _InlinedType197
+      - _InlinedType198
+
+  _InlinedType200:
+    extends:
+      - _InlinedType195
+      - _InlinedType196
+
+  _InlinedType201:
+    properties:
+      data: _InlinedType200
+      message: string
+      status: integer

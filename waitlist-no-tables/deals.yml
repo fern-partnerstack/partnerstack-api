@@ -1,0 +1,821 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+services:
+  http:
+    DealsService:
+      auth: true
+      base-path: ""
+      endpoints:
+        "":
+          path: /deals/{deal_key}/assignment/{partnership_key}/{stack_key}
+          method: POST
+          docs: Assign the provided partnership to the provided deal.
+          display-name: Assign partnership to deal
+          path-parameters:
+            deal_key:
+              docs: Unique identifier of the deal
+              type: string
+            partnership_key:
+              docs: Unique identifier of the partnership
+              type: string
+            stack_key:
+              docs: Personal stack key
+              type: string
+          response: _InlinedType0
+
+        _unnamedOperation0:
+          path: /deals/{deal_key}/file/{file_key}
+          method: GET
+          docs: Get the file for the deal.
+          display-name: Get deal file
+          path-parameters:
+            deal_key:
+              docs: Unique identifier of the deal
+              type: string
+            file_key:
+              docs: Unique identifier of the file
+              type: string
+          response: _InlinedType2
+
+        _unnamedOperation1:
+          path: /v2/deals
+          method: GET
+          docs: |-
+            Returns a list of your deals. The deals are
+                returned sorted by creation date, with the most recent deals
+                appearing first.
+          display-name: List all deals
+          request:
+            query-parameters:
+              min_created:
+                docs: >-
+                  Applies a minimum epoch timestamp (ms) filter to the response
+                  `created_at`.
+                type: optional<integer>
+              max_created:
+                docs: >-
+                  Applies a maximum epoch timestamp (ms) filter to the response
+                  `created_at`.
+                type: optional<integer>
+              min_updated:
+                docs: >-
+                  Applies a minimum epoch timestamp (ms) filter to the response
+                  `updated_at`.
+                type: optional<integer>
+              max_updated:
+                docs: >-
+                  Applies a maximum epoch timestamp (ms) filter to the response
+                  `updated_at`.
+                type: optional<integer>
+              group:
+                docs: >-
+                  Will filter for partnerships who are in a group with the
+                  specified name. Name must have spaces and special characters
+                  removed.
+                type: optional<string>
+              partner_key:
+                docs: >-
+                  Will filter to a specific partnership's `partner_key`, which
+                  can be found using the partnership's get endpoint or from the
+                  partnership view in your PartnerStack dashboard.
+                type: optional<string>
+              limit:
+                docs: >-
+                  A limit on the number of items to be returned. Limits can
+                  range between 1 and 250, and the default is 10.
+                type: optional<integer>
+              starting_after:
+                docs: >-
+                  A cursor for use in pagination, `starting_after` takes in an
+                  item key and the subsequent call will return the following
+                  items in the list. This is mutually exclusive with
+                  `ending_before`.
+                type: optional<string>
+              ending_before:
+                docs: >-
+                  A cursor for use in pagination, `ending_before` takes in an
+                  item key and the subsequent call will return the prior items
+                  in the list. This is mutually exclusive with `starting_after`.
+                type: optional<string>
+          response: _InlinedType15
+
+        _unnamedOperation2:
+          path: /v2/deals
+          method: POST
+          docs: Creates a deal with desired params.
+          display-name: Create a deal
+          request:
+            body:
+              extends:
+                - _InlinedType16
+          response: _InlinedType30
+
+        _unnamedOperation3:
+          path: /v2/deals/form-templates
+          method: GET
+          docs: Fetches the specified form templates for a deal.
+          display-name: Retrieve the form templates for a deal
+          request:
+            query-parameters:
+              group_key: optional<string>
+              mold_key: optional<string>
+              partner_key: optional<string>
+          response: _InlinedType38
+
+        _unnamedOperation4:
+          path: /v2/deals/{deal_key}
+          method: GET
+          docs: >-
+            Retrieves the details of an existing deal. You need only supply the
+            unique deal key that was returned upon deal creation.
+          display-name: Retrieve a deal
+          path-parameters:
+            deal_key:
+              docs: >-
+                Unique identifier of deal. Can be `external_key`, if one
+                configured for deal.
+              type: string
+          response: _InlinedType50
+
+        _unnamedOperation5:
+          path: /v2/deals/{deal_key}
+          method: DELETE
+          docs: Archives the specified deal
+          display-name: Archive a deal
+          path-parameters:
+            deal_key:
+              docs: Unique identifier of deal.
+              type: string
+          response: _InlinedType51
+
+        _unnamedOperation6:
+          path: /v2/deals/{deal_key}
+          method: PATCH
+          docs: |-
+            Updates the specified deal by setting the values of
+                the parameters passed. Any parameters not provided will be left
+                unchanged.
+          display-name: Update a deal
+          path-parameters:
+            deal_key:
+              docs: >-
+                Unique identifier of deal. Can be `external_key`, if one
+                configured for deal.
+              type: string
+          request:
+            body:
+              docs: >-
+                **Deals** allow your partners to submit accounts they are
+                working to your sales team to avoid channel conflicts and earn
+                commissions for closed accounts.
+                Typically the Deals experience is handled through a CRM
+                integration like Salesforce. However you may opt to use the
+                Deals API to have PartnerStack interact with a custom data
+                warehouse rather than directly with your CRM.
+              properties:
+                account_name:
+                  docs: Name of the account
+                  type: optional<string>
+                amount:
+                  docs: Deal amount in **cents**
+                  type: optional<integer>
+                close_date:
+                  docs: Expected close date of deal as YYYY-MM-DD
+                  type: optional<string>
+                contact_first_name:
+                  docs: First name of the account's contact
+                  type: optional<string>
+                contact_last_name:
+                  docs: Last name of the account's contact
+                  type: optional<string>
+                external_key:
+                  docs: Reference that can be used in place of the key.
+                  type: optional<string>
+                fields: optional<list<_InlinedType52>>
+                group_key:
+                  docs: >-
+                    The unique key of the group in which this deals's partner is
+                    in
+                  type: optional<string>
+                lost_reason:
+                  docs: Reason for which the deal was lost.
+                  type: optional<string>
+                mold_key: optional<string>
+                partner_key:
+                  docs: The unique key of the partner who owns this deal
+                  type: optional<string>
+                source:
+                  docs: >-
+                    Source of the deal, either 'partner' or 'vendor', defaults
+                    to 'partner' if not specified
+                  type: optional<_InlinedType53>
+                stage:
+                  docs: >-
+                    Current stage of this deal. Must appear in Deals Stage list
+                    found in group settings.
+                  type: optional<string>
+                team: optional<_InlinedType56>
+                team_member: optional<_InlinedType59>
+          response: _InlinedType71
+
+        _unnamedOperation7:
+          path: /v2/deals/{deal_key}/convert
+          method: POST
+          docs: Converts a deal to a customer
+          display-name: Convert a deal
+          path-parameters:
+            deal_key:
+              docs: Unique identifier of deal.
+              type: string
+          request:
+            body:
+              properties:
+                customer_key:
+                  docs: >-
+                    Unique identifier to be used for customer. If no value is
+                    passed email of deal being converted will be used as
+                    `customer_key`.
+                  type: optional<string>
+                email:
+                  docs: The customers email, must be a valid email.
+                  type: string
+          response: _InlinedType78
+
+        _unnamedOperation8:
+          path: /v2/deals/{deal_key}/files
+          method: GET
+          docs: Gets the files attached to the specified deal
+          display-name: Get files attached to a deal
+          path-parameters:
+            deal_key:
+              docs: Unique identifier of the deal
+              type: string
+          response: _InlinedType81
+
+types:
+  _InlinedType0:
+    properties:
+      message: string
+      status: integer
+
+  _InlinedType1:
+    properties:
+      url:
+        docs: URL for the file
+        type: optional<string>
+
+  _InlinedType2:
+    properties:
+      data: _InlinedType1
+      message: string
+      status: integer
+
+  _InlinedType3:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType4:
+    docs: >-
+      **Deals** allow your partners to submit accounts they are working to your
+      sales team to avoid channel conflicts and earn commissions for closed
+      accounts.
+      Typically the Deals experience is handled through a CRM integration like
+      Salesforce. However you may opt to use the Deals API to have PartnerStack
+      interact with a custom data warehouse rather than directly with your CRM.
+    properties:
+      account_name:
+        docs: Name of the account
+        type: optional<string>
+      amount:
+        docs: Deal amount in **cents**
+        type: optional<integer>
+      close_date:
+        docs: Expected close date of deal as YYYY-MM-DD
+        type: optional<string>
+      contact_first_name:
+        docs: First name of the account's contact
+        type: optional<string>
+      contact_last_name:
+        docs: Last name of the account's contact
+        type: optional<string>
+      external_key:
+        docs: Reference that can be used in place of the key.
+        type: optional<string>
+      fields: optional<list<_InlinedType5>>
+      group_key:
+        docs: The unique key of the group in which this deals's partner is in
+        type: optional<string>
+      lost_reason:
+        docs: Reason for which the deal was lost.
+        type: optional<string>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who owns this deal
+        type: optional<string>
+      source:
+        docs: >-
+          Source of the deal, either 'partner' or 'vendor', defaults to
+          'partner' if not specified
+        type: optional<_InlinedType6>
+      stage:
+        docs: >-
+          Current stage of this deal. Must appear in Deals Stage list found in
+          group settings.
+        type: optional<string>
+      team: optional<_InlinedType9>
+      team_member: optional<_InlinedType12>
+
+  _InlinedType13:
+    extends:
+      - _InlinedType3
+      - _InlinedType4
+
+  _InlinedType14:
+    properties:
+      has_more: optional<boolean>
+      items: optional<list<_InlinedType13>>
+
+  _InlinedType15:
+    properties:
+      data: _InlinedType14
+      message: string
+      status: integer
+
+  _InlinedType16:
+    properties:
+      account_name:
+        docs: Name of the account
+        type: string
+      amount:
+        docs: Deal amount in **cents**
+        type: integer
+      close_date:
+        docs: Expected close date of deal as YYYY-MM-DD
+        type: string
+      contact_first_name:
+        docs: First name of the account's contact
+        type: string
+      contact_last_name:
+        docs: Last name of the account's contact
+        type: string
+      fields: optional<list<_InlinedType17>>
+      source:
+        docs: >-
+          Source of the deal, either 'partner' or 'vendor', defaults to
+          'partner' if not specified
+        type: optional<_InlinedType18>
+      stage:
+        docs: >-
+          Current stage of this deal. Must appear in Deals Stage list found in
+          group settings.
+        type: string
+
+  _InlinedType19:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType20:
+    docs: >-
+      **Deals** allow your partners to submit accounts they are working to your
+      sales team to avoid channel conflicts and earn commissions for closed
+      accounts.
+      Typically the Deals experience is handled through a CRM integration like
+      Salesforce. However you may opt to use the Deals API to have PartnerStack
+      interact with a custom data warehouse rather than directly with your CRM.
+    properties:
+      account_name:
+        docs: Name of the account
+        type: optional<string>
+      amount:
+        docs: Deal amount in **cents**
+        type: optional<integer>
+      close_date:
+        docs: Expected close date of deal as YYYY-MM-DD
+        type: optional<string>
+      contact_first_name:
+        docs: First name of the account's contact
+        type: optional<string>
+      contact_last_name:
+        docs: Last name of the account's contact
+        type: optional<string>
+      external_key:
+        docs: Reference that can be used in place of the key.
+        type: optional<string>
+      fields: optional<list<_InlinedType21>>
+      group_key:
+        docs: The unique key of the group in which this deals's partner is in
+        type: optional<string>
+      lost_reason:
+        docs: Reason for which the deal was lost.
+        type: optional<string>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who owns this deal
+        type: optional<string>
+      source:
+        docs: >-
+          Source of the deal, either 'partner' or 'vendor', defaults to
+          'partner' if not specified
+        type: optional<_InlinedType22>
+      stage:
+        docs: >-
+          Current stage of this deal. Must appear in Deals Stage list found in
+          group settings.
+        type: optional<string>
+      team: optional<_InlinedType25>
+      team_member: optional<_InlinedType28>
+
+  _InlinedType29:
+    extends:
+      - _InlinedType19
+      - _InlinedType20
+
+  _InlinedType30:
+    properties:
+      data: _InlinedType29
+      message: string
+      status: integer
+
+  _InlinedType31:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType32:
+    docs: >-
+      **FormTemplates** are configurable on many of our supported objects. These
+      forms act as a way to collect additional information on object create
+    properties:
+      description:
+        docs: A description for users to better understand the form
+        type: optional<string>
+      fields: optional<list<_InlinedType33>>
+      groups: optional<list<_InlinedType36>>
+      name:
+        docs: The presented name of this form
+        type: optional<string>
+      title:
+        docs: A title to display to users when they fill out the form
+        type: optional<string>
+      type:
+        docs: The type of object within PartnerStack that this form translates to
+        type: optional<string>
+
+  _InlinedType37:
+    extends:
+      - _InlinedType31
+      - _InlinedType32
+
+  _InlinedType38:
+    properties:
+      data: list<_InlinedType37>
+      message: string
+      status: integer
+
+  _InlinedType39:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType40:
+    docs: >-
+      **Deals** allow your partners to submit accounts they are working to your
+      sales team to avoid channel conflicts and earn commissions for closed
+      accounts.
+      Typically the Deals experience is handled through a CRM integration like
+      Salesforce. However you may opt to use the Deals API to have PartnerStack
+      interact with a custom data warehouse rather than directly with your CRM.
+    properties:
+      account_name:
+        docs: Name of the account
+        type: optional<string>
+      amount:
+        docs: Deal amount in **cents**
+        type: optional<integer>
+      close_date:
+        docs: Expected close date of deal as YYYY-MM-DD
+        type: optional<string>
+      contact_first_name:
+        docs: First name of the account's contact
+        type: optional<string>
+      contact_last_name:
+        docs: Last name of the account's contact
+        type: optional<string>
+      external_key:
+        docs: Reference that can be used in place of the key.
+        type: optional<string>
+      fields: optional<list<_InlinedType41>>
+      group_key:
+        docs: The unique key of the group in which this deals's partner is in
+        type: optional<string>
+      lost_reason:
+        docs: Reason for which the deal was lost.
+        type: optional<string>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who owns this deal
+        type: optional<string>
+      source:
+        docs: >-
+          Source of the deal, either 'partner' or 'vendor', defaults to
+          'partner' if not specified
+        type: optional<_InlinedType42>
+      stage:
+        docs: >-
+          Current stage of this deal. Must appear in Deals Stage list found in
+          group settings.
+        type: optional<string>
+      team: optional<_InlinedType45>
+      team_member: optional<_InlinedType48>
+
+  _InlinedType49:
+    extends:
+      - _InlinedType39
+      - _InlinedType40
+
+  _InlinedType50:
+    properties:
+      data: _InlinedType49
+      message: string
+      status: integer
+
+  _InlinedType51:
+    properties:
+      message: string
+      status: integer
+
+  _InlinedType52:
+    docs: >-
+      **FieldData** combines attributes about a field with its submitted value
+      on target object
+    properties:
+      api_name:
+        docs: >-
+          API name of this field to be used on create / update / serialization.
+          Created at time of field creation but can be edited
+        type: optional<string>
+      external_type:
+        docs: Name that can be used for external systems
+        type: optional<string>
+      field_key:
+        docs: Key of field that is presented
+        type: optional<string>
+      help_text:
+        docs: The help text that is provided for this field
+        type: optional<string>
+      hidden:
+        docs: >-
+          Whether or not this field is displayed when filling out its attached
+          form
+        type: optional<boolean>
+      internal_name:
+        docs: >-
+          Internal name of this field. Created by PartnerStack at time of field
+          creation. Used when referencing field in created objects. Cannot be
+          edited.
+        type: optional<string>
+      name:
+        docs: Name of field that is presented
+        type: optional<string>
+      placeholder_text:
+        docs: The text of the placeholder that is provided for this field
+        type: optional<string>
+      position:
+        docs: >-
+          The position that this field will be displayed in relation to others
+          on the same form (index starts at 0)
+        type: optional<integer>
+      required:
+        docs: >-
+          Whether or not this field will be required when filling out its
+          attached form
+        type: optional<boolean>
+      type:
+        docs: >-
+          The type of field that will be presented (input, picklist, number
+          ect.)
+        type: optional<string>
+
+  _InlinedType53:
+    docs: >-
+      Source of the deal, either 'partner' or 'vendor', defaults to 'partner' if
+      not specified
+    enum:
+      - partner
+      - vendor
+
+  _InlinedType54:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType55:
+    docs: Details of team used in public API.
+    properties:
+      name:
+        docs: The name of the partner team
+        type: optional<string>
+
+  _InlinedType56:
+    extends:
+      - _InlinedType54
+      - _InlinedType55
+
+  _InlinedType57:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType58:
+    docs: Details of team member used in public API.
+    properties:
+      email:
+        docs: Email of the partner team member
+        type: optional<string>
+      first_name:
+        docs: First name of the partner team member
+        type: optional<string>
+      last_name:
+        docs: Last name of the partner team member
+        type: optional<string>
+
+  _InlinedType59:
+    extends:
+      - _InlinedType57
+      - _InlinedType58
+
+  _InlinedType60:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType61:
+    docs: >-
+      **Deals** allow your partners to submit accounts they are working to your
+      sales team to avoid channel conflicts and earn commissions for closed
+      accounts.
+      Typically the Deals experience is handled through a CRM integration like
+      Salesforce. However you may opt to use the Deals API to have PartnerStack
+      interact with a custom data warehouse rather than directly with your CRM.
+    properties:
+      account_name:
+        docs: Name of the account
+        type: optional<string>
+      amount:
+        docs: Deal amount in **cents**
+        type: optional<integer>
+      close_date:
+        docs: Expected close date of deal as YYYY-MM-DD
+        type: optional<string>
+      contact_first_name:
+        docs: First name of the account's contact
+        type: optional<string>
+      contact_last_name:
+        docs: Last name of the account's contact
+        type: optional<string>
+      external_key:
+        docs: Reference that can be used in place of the key.
+        type: optional<string>
+      fields: optional<list<_InlinedType62>>
+      group_key:
+        docs: The unique key of the group in which this deals's partner is in
+        type: optional<string>
+      lost_reason:
+        docs: Reason for which the deal was lost.
+        type: optional<string>
+      mold_key: optional<string>
+      partner_key:
+        docs: The unique key of the partner who owns this deal
+        type: optional<string>
+      source:
+        docs: >-
+          Source of the deal, either 'partner' or 'vendor', defaults to
+          'partner' if not specified
+        type: optional<_InlinedType63>
+      stage:
+        docs: >-
+          Current stage of this deal. Must appear in Deals Stage list found in
+          group settings.
+        type: optional<string>
+      team: optional<_InlinedType66>
+      team_member: optional<_InlinedType69>
+
+  _InlinedType70:
+    extends:
+      - _InlinedType60
+      - _InlinedType61
+
+  _InlinedType71:
+    properties:
+      data: _InlinedType70
+      message: string
+      status: integer
+
+  _InlinedType72:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType73:
+    docs: >-
+      **Customers** represent the users who have been referred by a **Partner**.
+      **Customers** are linked to the **Partner** that referred them through a
+      **partner_key** which must be provided on the Create Customer endpoint.
+      The **partner_key** is retrievable from `growsumo.data.partner_key`, which
+      is created by the `PartnerStackJS` snippet.
+    extends:
+      - _InlinedType74
+      - _InlinedType75
+
+  _InlinedType77:
+    extends:
+      - _InlinedType72
+      - _InlinedType73
+
+  _InlinedType78:
+    properties:
+      data: _InlinedType77
+      message: string
+      status: integer
+
+  _InlinedType79:
+    properties:
+      field_key: optional<string>
+      key: optional<string>
+      name: optional<string>
+
+  _InlinedType80:
+    properties:
+      deal_files: optional<list<_InlinedType79>>
+
+  _InlinedType81:
+    properties:
+      data: _InlinedType80
+      message: string
+      status: integer

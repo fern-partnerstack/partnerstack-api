@@ -1,0 +1,127 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+services:
+  http:
+    ApplicationsService:
+      auth: true
+      base-path: /v2/applications
+      endpoints:
+        "":
+          path: /decision
+          method: PATCH
+          docs: Update the decision of the given Applications provided
+          display-name: Bulk Decision Applications
+          request:
+            body:
+              properties:
+                application_keys:
+                  docs: List of application_keys that we are approving or declining
+                  type: optional<list<unknown>>
+                approved:
+                  docs: The decision approval state, null removes existing decision
+                  type: optional<boolean>
+                decline_reason:
+                  docs: The reason associated with the provided decision
+                  type: optional<string>
+                group_id_override:
+                  docs: >-
+                    The override group to move the Partner to after applying
+                    decision
+                  type: optional<integer>
+          response: _InlinedType102
+
+        _unnamedOperation11:
+          path: /{application_key}/decision
+          method: PATCH
+          docs: Update the decision of the given Application
+          display-name: Decision an Application
+          path-parameters:
+            application_key:
+              docs: The key of the application we're applying a decision to
+              type: string
+          request:
+            body:
+              properties:
+                approved:
+                  docs: The decision approval state, null removes existing decision
+                  type: optional<boolean>
+                decline_reason:
+                  docs: The reason associated with the provided decision
+                  type: optional<string>
+                group_id_override:
+                  docs: >-
+                    The override group to move the Partner to after applying
+                    decision
+                  type: optional<integer>
+                group_key_override:
+                  docs: >-
+                    The override group to move the partner to after applying
+                    decision. If supplied, will take precedence over any
+                    group_id_override value also set.
+                  type: optional<string>
+          response: _InlinedType106
+
+types:
+  _InlinedType98:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType99:
+    docs: >-
+      Applications represent partnerstack partners attempting to join vendor
+      programs via public form
+    type: map<string, unknown>
+
+  _InlinedType100:
+    extends:
+      - _InlinedType98
+      - _InlinedType99
+
+  _InlinedType101:
+    properties:
+      items: optional<list<_InlinedType100>>
+
+  _InlinedType102:
+    properties:
+      data: _InlinedType101
+      message: string
+      status: integer
+
+  _InlinedType103:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType104:
+    docs: >-
+      Applications represent partnerstack partners attempting to join vendor
+      programs via public form
+    type: map<string, unknown>
+
+  _InlinedType105:
+    extends:
+      - _InlinedType103
+      - _InlinedType104
+
+  _InlinedType106:
+    properties:
+      data: _InlinedType105
+      message: string
+      status: integer

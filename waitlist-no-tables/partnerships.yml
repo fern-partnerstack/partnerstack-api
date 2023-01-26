@@ -1,0 +1,434 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+services:
+  http:
+    PartnershipsService:
+      auth: true
+      base-path: /v2/partnerships
+      endpoints:
+        "":
+          path: ""
+          method: GET
+          docs: >-
+            Returns a list of your partnerships. The partnerships are returned
+            sorted by creation date by default, with the most recent
+            partnerships appearing first.
+          display-name: List all partnerships
+          request:
+            query-parameters:
+              min_created:
+                docs: >-
+                  Applies a minimum epoch timestamp (ms) filter to the response
+                  `created_at`.
+                type: optional<integer>
+              max_created:
+                docs: >-
+                  Applies a maximum epoch timestamp (ms) filter to the response
+                  `created_at`.
+                type: optional<integer>
+              min_updated:
+                docs: >-
+                  Applies a minimum epoch timestamp (ms) filter to the response
+                  `updated_at`.
+                type: optional<integer>
+              max_updated:
+                docs: >-
+                  Applies a maximum epoch timestamp (ms) filter to the response
+                  `updated_at`.
+                type: optional<integer>
+              group:
+                docs: >-
+                  Will filter for partnerships who are in a group with the
+                  specified name. Name must have spaces and special characters
+                  removed.
+                type: optional<string>
+              order_by:
+                docs: >-
+                  The field in which the results are ordered by. A `-` prefix
+                  denotes that the results are in descending order.
+                type: optional<string>
+              email:
+                docs: The email of the user with the partnership you're looking for.
+                type: optional<string>
+              limit:
+                docs: >-
+                  A limit on the number of items to be returned. Limits can
+                  range between 1 and 250, and the default is 10.
+                type: optional<integer>
+              starting_after:
+                docs: >-
+                  A cursor for use in pagination, `starting_after` takes in an
+                  item key and the subsequent call will return the following
+                  items in the list. This is mutually exclusive with
+                  `ending_before`.
+                type: optional<string>
+              ending_before:
+                docs: >-
+                  A cursor for use in pagination, `ending_before` takes in an
+                  item key and the subsequent call will return the prior items
+                  in the list. This is mutually exclusive with `starting_after`.
+                type: optional<string>
+          response: _InlinedType220
+
+        _unnamedOperation22:
+          path: ""
+          method: POST
+          docs: Creates a new partnership with the data provided.
+          display-name: Create a partnership
+          request:
+            body:
+              extends:
+                - _InlinedType221
+                - _InlinedType223
+          response: _InlinedType234
+
+        _unnamedOperation23:
+          path: /{partnership_key}
+          method: GET
+          docs: Retrieves the details of an existing partnership.
+          display-name: Retrieve a partnership
+          path-parameters:
+            partnership_key:
+              docs: >-
+                Unique identifier of partnership. Can be `partner_key`, if one
+                configured for partnership.
+              type: string
+          response: _InlinedType248
+
+        _unnamedOperation24:
+          path: /{partnership_key}
+          method: DELETE
+          docs: Archives a partnership.
+          display-name: Archive a partnership
+          path-parameters:
+            partnership_key:
+              docs: The specific internal key that identifies the partnership.
+              type: string
+          response: _InlinedType249
+
+        _unnamedOperation25:
+          path: /{partnership_key}
+          method: PATCH
+          docs: >-
+            Updates the specific partnership by setting the values of the
+            parameters passed.
+          display-name: Update a partnership
+          path-parameters:
+            partnership_key:
+              docs: The specific key for the partnership
+              type: string
+          request:
+            body:
+              docs: UpdateTarget
+              properties:
+                fields: optional<list<_InlinedType250>>
+                group_key:
+                  docs: >-
+                    The key of the group within PartnerStack that you want this
+                    partner to be placed into.
+                  type: optional<string>
+                manager_email:
+                  docs: >-
+                    The email of the partner manager that you would like to
+                    assign this partner.
+                  type: optional<string>
+                tier_key:
+                  docs: >-
+                    The key of the tier within PartnerStack that you want this
+                    partner to be placed into.
+                  type: optional<string>
+          response: _InlinedType259
+
+        _unnamedOperation26:
+          path: /{partnership_key}/tags
+          method: PATCH
+          docs: Add or remove tags from the specified partnership.
+          display-name: Updates a partnership's tags
+          path-parameters:
+            partnership_key:
+              docs: The specific key for the partnership
+              type: string
+          request:
+            body:
+              docs: UpdateTagsForTarget
+              properties:
+                add:
+                  docs: >-
+                    Specifies a list of tags to be associated/added to the
+                    partnership
+                  type: optional<list<string>>
+                remove:
+                  docs: >-
+                    Specifies a list of tags to be disassociated/removed from
+                    the partnership
+                  type: optional<list<string>>
+          response: _InlinedType271
+
+types:
+  _InlinedType211:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType212:
+    docs: >-
+      Partnerships represent companies that you are partnered with and promoting
+      on PartnerStack
+    properties:
+      address:
+        docs: Partnership's address information.
+        type: optional<_InlinedType213>
+      email:
+        docs: email address for the partner
+        type: optional<string>
+      first_name:
+        docs: first name of the partner
+        type: optional<string>
+      group:
+        docs: partnership's group information
+        type: optional<_InlinedType214>
+      joined_at:
+        docs: timestamp for when the partner joined partnerstack
+        type: optional<integer>
+      last_name:
+        docs: last name of the partner
+        type: optional<string>
+      manager:
+        docs: partnership's manager information if applicable
+        type: optional<_InlinedType215>
+      partner_key:
+        docs: key used externally when referencing the partnership
+        type: optional<string>
+      tags:
+        docs: List of tags associated with the partnership
+        type: optional<list<string>>
+
+  _InlinedType216:
+    properties:
+      team: optional<_InlinedType217>
+
+  _InlinedType218:
+    extends:
+      - _InlinedType211
+      - _InlinedType212
+      - _InlinedType216
+
+  _InlinedType219:
+    properties:
+      has_more: optional<boolean>
+      items: optional<list<_InlinedType218>>
+      total: optional<integer>
+
+  _InlinedType220:
+    properties:
+      data: _InlinedType219
+      message: string
+      status: integer
+
+  _InlinedType221:
+    docs: >-
+      **Partners** represent users on PartnerStack that will be promoting your
+      company.
+    properties:
+      email:
+        docs: The email of the partner.
+        type: optional<string>
+      fields: optional<list<_InlinedType222>>
+      first_name:
+        docs: The first name of the partner.
+        type: optional<string>
+      last_name:
+        docs: The last name of the partner.
+        type: optional<string>
+      manager_email:
+        docs: The email of the Partner Manager who you wish to manage this partner.
+        type: optional<string>
+      manager_name:
+        docs: The name of the Partner Manager who you wish to manage this partner.
+        type: optional<string>
+      partner_key:
+        docs: >-
+          The `partner_key` you wish to use for this partner. If included,
+          **must** be unique to this partner. For more information on
+          `partner_key` see PartnerStackJS.
+        type: optional<string>
+      tags: optional<list<string>>
+
+  _InlinedType223:
+    properties:
+      group_key:
+        docs: >-
+          The key of the group within PartnerStack that you want this partner to
+          be placed into.
+        type: optional<string>
+
+  _InlinedType224:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType225:
+    extends:
+      - _InlinedType226
+      - _InlinedType228
+
+  _InlinedType233:
+    extends:
+      - _InlinedType224
+      - _InlinedType225
+
+  _InlinedType234:
+    properties:
+      data: _InlinedType233
+      message: string
+      status: integer
+
+  _InlinedType235:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType236:
+    extends:
+      - _InlinedType237
+      - _InlinedType239
+
+  _InlinedType244:
+    properties:
+      address:
+        docs: Partnership's address information.
+        type: optional<_InlinedType245>
+      team: optional<_InlinedType246>
+
+  _InlinedType247:
+    extends:
+      - _InlinedType235
+      - _InlinedType236
+      - _InlinedType244
+
+  _InlinedType248:
+    properties:
+      data: _InlinedType247
+      message: string
+      status: integer
+
+  _InlinedType249:
+    properties:
+      message: string
+      status: integer
+
+  _InlinedType250:
+    properties:
+      api_name:
+        docs: The api name of the field that you wish to update on the partnership
+        type: optional<string>
+
+  _InlinedType251:
+    docs: >-
+      **Partners** represent users on PartnerStack that will be promoting your
+      company.
+    properties:
+      email:
+        docs: The email of the partner.
+        type: optional<string>
+      fields: optional<list<_InlinedType252>>
+      first_name:
+        docs: The first name of the partner.
+        type: optional<string>
+      last_name:
+        docs: The last name of the partner.
+        type: optional<string>
+      manager_email:
+        docs: The email of the Partner Manager who you wish to manage this partner.
+        type: optional<string>
+      manager_name:
+        docs: The name of the Partner Manager who you wish to manage this partner.
+        type: optional<string>
+      partner_key:
+        docs: >-
+          The `partner_key` you wish to use for this partner. If included,
+          **must** be unique to this partner. For more information on
+          `partner_key` see PartnerStackJS.
+        type: optional<string>
+      tags: optional<list<string>>
+
+  _InlinedType253:
+    properties:
+      group: optional<_InlinedType256>
+      tier:
+        docs: "**Tiers** enable vendors to provide reward and feature levels."
+        type: optional<_InlinedType257>
+
+  _InlinedType258:
+    extends:
+      - _InlinedType251
+      - _InlinedType253
+
+  _InlinedType259:
+    properties:
+      data: _InlinedType258
+      message: string
+      status: integer
+
+  _InlinedType260:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  _InlinedType261:
+    extends:
+      - _InlinedType262
+      - _InlinedType264
+
+  _InlinedType269:
+    extends:
+      - _InlinedType260
+      - _InlinedType261
+
+  _InlinedType270:
+    docs: Response schema for the PatchUpdateTagsForPartnership endpoint
+    properties:
+      partnership: optional<_InlinedType269>
+      tags_added: optional<list<string>>
+      tags_not_found: optional<list<string>>
+      tags_removed: optional<list<string>>
+
+  _InlinedType271:
+    properties:
+      data:
+        docs: Response schema for the PatchUpdateTagsForPartnership endpoint
+        type: _InlinedType270
+      message: string
+      status: integer
