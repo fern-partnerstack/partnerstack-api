@@ -1,2 +1,3 @@
 name: api
-headers: {}
+auth: basic 
+display-name: Vendor API

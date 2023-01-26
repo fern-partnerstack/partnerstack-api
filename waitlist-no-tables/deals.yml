@@ -148,7 +148,7 @@ services:
               type: string
           response: commons.BaseResponse
 
-        _unnamedOperation6:
+        update:
           path: /v2/deals/{deal_key}
           method: PATCH
           docs: |-
@@ -162,7 +162,8 @@ services:
                 Unique identifier of deal. Can be `external_key`, if one
                 configured for deal.
               type: string
-          request:
+          request: 
+            name: UpdateDealRequest
             body:
               docs: >-
                 **Deals** allow your partners to submit accounts they are
