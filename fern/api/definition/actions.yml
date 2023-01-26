@@ -1,5 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
 
+imports:
+  commons: commons.yml
+
 services:
   http:
     ActionsService:
@@ -107,7 +110,7 @@ types:
       company:
         docs: Base schema representation of a company
         type: optional<commons.Company>
-      customer: optional<_InlinedType85>
+      customer: optional<commons.Customer>
       partnership_key:
         docs: Unique key of this partnership.
         type: optional<string>
@@ -150,7 +153,7 @@ types:
         type: optional<string>
       target_type:
         docs: Whether to record an action under a partnership or customer
-        type: optional<_InlinedType94>
+        type: optional<commons.TargetType>
       type:
         docs: The type of action the partner or customer performed
         type: optional<string>
@@ -167,5 +170,8 @@ types:
     extends: commons.BaseResponse
     properties:
       data: RecordActionResponseData
+
+  ArchiveActionResponse: 
+    extends: commons.BaseResponse
 
 

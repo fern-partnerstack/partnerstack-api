@@ -20,10 +20,10 @@ types:
       status: integer
 
   BaseRequestBody: 
+    docs: >-
+      **Actions** represent a specific action a partner or customer took on your
+      platform
     properties:
-      docs: >-
-        **Actions** represent a specific action a partner or customer took on your
-        platform
       external_key:
         docs: The external key of the action record in PartnerStack
         type: optional<string>
@@ -33,9 +33,7 @@ types:
           customer, this is the customer key. For a partnership, it is their
           partner key.
         type: optional<string>
-      target_type:
-        docs: Whether to record an action under a partnership or customer
-        type: optional<_InlinedType90>
+      target_type: optional<TargetType>
       type:
         docs: The type of action the partner or customer performed
         type: optional<string>
@@ -61,3 +59,8 @@ types:
         docs: Unique key of this customer 
       sub_ids: optional<list<string>>
 
+  TargetType: 
+    docs: Whether to record an action under a partnership or customer
+    enum: 
+      - partnership
+      - customer
