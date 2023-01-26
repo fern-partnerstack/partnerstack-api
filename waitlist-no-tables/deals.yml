@@ -146,7 +146,7 @@ services:
             deal_key:
               docs: Unique identifier of deal.
               type: string
-          response: _InlinedType51
+          response: commons.BaseResponse
 
         _unnamedOperation6:
           path: /v2/deals/{deal_key}
@@ -253,11 +253,6 @@ services:
           response: _InlinedType81
 
 types:
-  _InlinedType0:
-    properties:
-      message: string
-      status: integer
-
   _InlinedType1:
     properties:
       url:
@@ -265,23 +260,9 @@ types:
         type: optional<string>
 
   _InlinedType2:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType1
-      message: string
-      status: integer
-
-  _InlinedType3:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType4:
     docs: >-
@@ -336,7 +317,7 @@ types:
 
   _InlinedType13:
     extends:
-      - _InlinedType3
+      - commons.BaseObject
       - _InlinedType4
 
   _InlinedType14:
@@ -345,10 +326,9 @@ types:
       items: optional<list<_InlinedType13>>
 
   _InlinedType15:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType14
-      message: string
-      status: integer
 
   _InlinedType16:
     properties:
@@ -378,19 +358,6 @@ types:
           Current stage of this deal. Must appear in Deals Stage list found in
           group settings.
         type: string
-
-  _InlinedType19:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType20:
     docs: >-
@@ -445,27 +412,13 @@ types:
 
   _InlinedType29:
     extends:
-      - _InlinedType19
+      - commons.BaseObject
       - _InlinedType20
 
   _InlinedType30:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType29
-      message: string
-      status: integer
-
-  _InlinedType31:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType32:
     docs: >-
@@ -489,27 +442,13 @@ types:
 
   _InlinedType37:
     extends:
-      - _InlinedType31
+      - commons.BaseObject
       - _InlinedType32
 
   _InlinedType38:
+    extends: commons.BaseResponse
     properties:
       data: list<_InlinedType37>
-      message: string
-      status: integer
-
-  _InlinedType39:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType40:
     docs: >-
@@ -564,19 +503,13 @@ types:
 
   _InlinedType49:
     extends:
-      - _InlinedType39
+      - commons.BaseObject 
       - _InlinedType40
 
   _InlinedType50:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType49
-      message: string
-      status: integer
-
-  _InlinedType51:
-    properties:
-      message: string
-      status: integer
 
   _InlinedType52:
     docs: >-
@@ -638,19 +571,6 @@ types:
       - partner
       - vendor
 
-  _InlinedType54:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   _InlinedType55:
     docs: Details of team used in public API.
     properties:
@@ -660,21 +580,8 @@ types:
 
   _InlinedType56:
     extends:
-      - _InlinedType54
+      - commons.BaseObject 
       - _InlinedType55
-
-  _InlinedType57:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType58:
     docs: Details of team member used in public API.
@@ -691,21 +598,8 @@ types:
 
   _InlinedType59:
     extends:
-      - _InlinedType57
+      - commons.BaseObject 
       - _InlinedType58
-
-  _InlinedType60:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType61:
     docs: >-
@@ -760,27 +654,13 @@ types:
 
   _InlinedType70:
     extends:
-      - _InlinedType60
+      - commons.BaseObject
       - _InlinedType61
 
   _InlinedType71:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType70
-      message: string
-      status: integer
-
-  _InlinedType72:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType73:
     docs: >-
@@ -795,14 +675,13 @@ types:
 
   _InlinedType77:
     extends:
-      - _InlinedType72
+      - commons.BaseObject
       - _InlinedType73
 
   _InlinedType78:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType77
-      message: string
-      status: integer
 
   _InlinedType79:
     properties:
@@ -815,7 +694,6 @@ types:
       deal_files: optional<list<_InlinedType79>>
 
   _InlinedType81:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType80
-      message: string
-      status: integer

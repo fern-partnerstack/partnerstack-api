@@ -141,19 +141,6 @@ services:
           response: _InlinedType140
 
 types:
-  _InlinedType107:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   _InlinedType108:
     docs: >-
       **Customers** represent the users who have been referred by a **Partner**.
@@ -167,7 +154,7 @@ types:
 
   _InlinedType112:
     extends:
-      - _InlinedType107
+      - commons.BaseObject
       - _InlinedType108
 
   _InlinedType113:
@@ -177,10 +164,9 @@ types:
       total: optional<integer>
 
   _InlinedType114:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType113
-      message: string
-      status: integer
 
   _InlinedType115:
     properties:
@@ -207,19 +193,6 @@ types:
           `partner_key` must belong to a partner in your program)**.
         type: optional<string>
 
-  _InlinedType118:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   _InlinedType119:
     docs: >-
       **Customers** represent the users who have been referred by a **Partner**.
@@ -233,27 +206,13 @@ types:
 
   _InlinedType123:
     extends:
-      - _InlinedType118
+      - commons.BaseObject
       - _InlinedType119
 
   _InlinedType124:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType123
-      message: string
-      status: integer
-
-  _InlinedType125:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType126:
     docs: >-
@@ -268,48 +227,20 @@ types:
 
   _InlinedType130:
     extends:
-      - _InlinedType125
+      - commons.BaseObject
       - _InlinedType126
 
   _InlinedType131:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType130
-      message: string
-      status: integer
-
-  _InlinedType132:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType133:
+    extends: commons.BaseResponse
     properties:
       data:
         docs: Standard fields that are present on all database objects.
-        type: _InlinedType132
-      message: string
-      status: integer
-
-  _InlinedType134:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
+        type: BaseObject
 
   _InlinedType135:
     docs: >-
@@ -324,11 +255,10 @@ types:
 
   _InlinedType139:
     extends:
-      - _InlinedType134
+      - commons.BaseObject
       - _InlinedType135
 
   _InlinedType140:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType139
-      message: string
-      status: integer

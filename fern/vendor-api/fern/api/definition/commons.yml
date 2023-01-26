@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+types:
+  BaseObject:
+    docs: Standard fields that are present on all database objects.
+    properties:
+      created_at:
+        docs: Immutable Unix timestamp in milliseconds taken at time of creation
+        type: optional<integer>
+      key:
+        docs: A unique identifier used to reference the object
+        type: optional<string>
+      updated_at:
+        docs: Unix timestamp in milliseconds taken at time of last update
+        type: optional<integer>
+
+  BaseResponse:
+    properties:
+      message: string
+      status: integer
+
+  BaseRequestBody: 
+    properties:
+      docs: >-
+        **Actions** represent a specific action a partner or customer took on your
+        platform
+      external_key:
+        docs: The external key of the action record in PartnerStack
+        type: optional<string>
+      target_key:
+        docs: >-
+          The identifier of the target specified in `target_type`. For a
+          customer, this is the customer key. For a partnership, it is their
+          partner key.
+        type: optional<string>
+      target_type:
+        docs: Whether to record an action under a partnership or customer
+        type: optional<_InlinedType90>
+      type:
+        docs: The type of action the partner or customer performed
+        type: optional<string>
+      value:
+        docs: The number of times the action was performed
+        type: optional<integer>
+
+  Company: 
+    docs: Base schema representation of a customer
+    properties:
+      key: 
+        type: optional<string>
+        docs: Unique key of this company 
+      name: 
+        type: optional<string>
+        docs: The name of this company
+
+  Customer: 
+    docs: Base schema representation of a customer
+    properties:
+      key: 
+        type: optional<string>
+        docs: Unique key of this customer 
+      sub_ids: optional<list<string>>
+

@@ -96,10 +96,9 @@ types:
       total: optional<integer>
 
   _InlinedType305:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType304
-      message: string
-      status: integer
 
   _InlinedType306:
     docs: Transaction Base
@@ -134,7 +133,6 @@ types:
       - _InlinedType309
 
   _InlinedType317:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType316
-      message: string
-      status: integer

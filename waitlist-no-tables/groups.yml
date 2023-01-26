@@ -56,19 +56,6 @@ services:
           response: _InlinedType154
 
 types:
-  _InlinedType150:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   _InlinedType151:
     docs: >-
       **Groups** are a way to segment partners within PartnerStack to
@@ -90,7 +77,7 @@ types:
 
   _InlinedType152:
     extends:
-      - _InlinedType150
+      - commons.BaseObject
       - _InlinedType151
 
   _InlinedType153:
@@ -99,7 +86,6 @@ types:
       items: optional<list<_InlinedType152>>
 
   _InlinedType154:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType153
-      message: string
-      status: integer

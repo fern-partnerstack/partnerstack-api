@@ -95,7 +95,7 @@ services:
             lead_key:
               docs: Unique identifier of lead.
               type: string
-          response: _InlinedType186
+          response: commons.BaseResponse
 
         _unnamedOperation19:
           path: /{lead_key}
@@ -184,19 +184,6 @@ services:
           response: _InlinedType201
 
 types:
-  _InlinedType155:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   _InlinedType156:
     docs: >-
       **Leads** are submitted by your partners to let your sales team know of
@@ -241,7 +228,7 @@ types:
 
   _InlinedType159:
     extends:
-      - _InlinedType155
+      - commons.BaseObject
       - _InlinedType156
 
   _InlinedType160:
@@ -250,10 +237,9 @@ types:
       items: optional<list<_InlinedType159>>
 
   _InlinedType161:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType160
-      message: string
-      status: integer
 
   _InlinedType162:
     docs: >-
@@ -291,19 +277,6 @@ types:
           Current status of this lead. Must be one of either 'open', 'closed',
           'dead', 'closed won', or 'closed lost'
         type: _InlinedType165
-
-  _InlinedType166:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType167:
     docs: >-
@@ -349,27 +322,13 @@ types:
 
   _InlinedType170:
     extends:
-      - _InlinedType166
+      - commons.BaseObject
       - _InlinedType167
 
   _InlinedType171:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType170
-      message: string
-      status: integer
-
-  _InlinedType172:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType173:
     docs: >-
@@ -393,27 +352,13 @@ types:
 
   _InlinedType178:
     extends:
-      - _InlinedType172
+      - commons.BaseObject
       - _InlinedType173
 
   _InlinedType179:
+    extends: commons.BaseResponse
     properties:
       data: list<_InlinedType178>
-      message: string
-      status: integer
-
-  _InlinedType180:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType181:
     docs: >-
@@ -459,19 +404,13 @@ types:
 
   _InlinedType184:
     extends:
-      - _InlinedType180
+      - commons.BaseObject
       - _InlinedType181
 
   _InlinedType185:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType184
-      message: string
-      status: integer
-
-  _InlinedType186:
-    properties:
-      message: string
-      status: integer
 
   _InlinedType187:
     docs: >-
@@ -536,19 +475,6 @@ types:
       - closed won
       - closed lost
 
-  _InlinedType189:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   _InlinedType190:
     docs: >-
       **Leads** are submitted by your partners to let your sales team know of
@@ -593,27 +519,13 @@ types:
 
   _InlinedType193:
     extends:
-      - _InlinedType189
+      - commons.BaseObject
       - _InlinedType190
 
   _InlinedType194:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType193
-      message: string
-      status: integer
-
-  _InlinedType195:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType196:
     docs: >-
@@ -628,11 +540,10 @@ types:
 
   _InlinedType200:
     extends:
-      - _InlinedType195
+      - commons.BaseObject
       - _InlinedType196
 
   _InlinedType201:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType200
-      message: string
-      status: integer

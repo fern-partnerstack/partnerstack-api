@@ -105,10 +105,9 @@ types:
       total: optional<integer>
 
   _InlinedType206:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType205
-      message: string
-      status: integer
 
   _InlinedType207:
     docs: Returns a list of all marketplace-listed programs and their details
@@ -148,7 +147,6 @@ types:
       - _InlinedType207
 
   _InlinedType210:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType209
-      message: string
-      status: integer

@@ -104,7 +104,7 @@ services:
             partnership_key:
               docs: The specific internal key that identifies the partnership.
               type: string
-          response: _InlinedType249
+          response: commons.BaseResponse
 
         _unnamedOperation25:
           path: /{partnership_key}
@@ -165,19 +165,6 @@ services:
           response: _InlinedType271
 
 types:
-  _InlinedType211:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   _InlinedType212:
     docs: >-
       Partnerships represent companies that you are partnered with and promoting
@@ -217,7 +204,7 @@ types:
 
   _InlinedType218:
     extends:
-      - _InlinedType211
+      - commons.BaseObject
       - _InlinedType212
       - _InlinedType216
 
@@ -228,10 +215,9 @@ types:
       total: optional<integer>
 
   _InlinedType220:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType219
-      message: string
-      status: integer
 
   _InlinedType221:
     docs: >-
@@ -270,19 +256,6 @@ types:
           be placed into.
         type: optional<string>
 
-  _InlinedType224:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
-
   _InlinedType225:
     extends:
       - _InlinedType226
@@ -290,27 +263,13 @@ types:
 
   _InlinedType233:
     extends:
-      - _InlinedType224
+      - commons.BaseObject
       - _InlinedType225
 
   _InlinedType234:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType233
-      message: string
-      status: integer
-
-  _InlinedType235:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType236:
     extends:
@@ -326,20 +285,14 @@ types:
 
   _InlinedType247:
     extends:
-      - _InlinedType235
+      - commons.BaseObject
       - _InlinedType236
       - _InlinedType244
 
   _InlinedType248:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType247
-      message: string
-      status: integer
-
-  _InlinedType249:
-    properties:
-      message: string
-      status: integer
 
   _InlinedType250:
     properties:
@@ -389,23 +342,9 @@ types:
       - _InlinedType253
 
   _InlinedType259:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType258
-      message: string
-      status: integer
-
-  _InlinedType260:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType261:
     extends:
@@ -414,7 +353,7 @@ types:
 
   _InlinedType269:
     extends:
-      - _InlinedType260
+      - commons.BaseObject
       - _InlinedType261
 
   _InlinedType270:
@@ -426,9 +365,8 @@ types:
       tags_removed: optional<list<string>>
 
   _InlinedType271:
+    extends: commons.BaseResponse
     properties:
       data:
         docs: Response schema for the PatchUpdateTagsForPartnership endpoint
         type: _InlinedType270
-      message: string
-      status: integer

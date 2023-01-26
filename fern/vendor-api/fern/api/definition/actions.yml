@@ -15,6 +15,7 @@ services:
             first.
           display-name: List all actions
           request:
+            name: ListAllActionsRequest
             query-parameters:
               min_created:
                 docs: >-
@@ -65,9 +66,9 @@ services:
                   item key and the subsequent call will return the prior items
                   in the list. This is mutually exclusive with `starting_after`.
                 type: optional<string>
-          response: _InlinedType88
+          response: ListAllActionsResponse
 
-        _unnamedOperation9:
+        record:
           path: ""
           method: POST
           docs: >-
@@ -75,9 +76,10 @@ services:
             number of times that action was performed.
           display-name: Record action
           request:
+            name: RecordActionRequest
             body:
               extends:
-                - _InlinedType89
+                - commons.BaseRequestBody
           response: _InlinedType96
 
         _unnamedOperation10:
@@ -107,7 +109,7 @@ types:
         docs: Unix timestamp in milliseconds taken at time of last update
         type: optional<integer>
 
-  _InlinedType83:
+  Action:
     docs: >-
       An **Action** represents a specific action a partner or customer took on
       your platform
@@ -117,7 +119,7 @@ types:
         type: optional<boolean>
       company:
         docs: Base schema representation of a company
-        type: optional<_InlinedType84>
+        type: optional<commons.Company>
       customer: optional<_InlinedType85>
       partnership_key:
         docs: Unique key of this partnership.
@@ -129,59 +131,21 @@ types:
         docs: The number of times the action was performed
         type: optional<integer>
 
-  _InlinedType86:
-    extends:
-      - _InlinedType82
-      - _InlinedType83
-
-  _InlinedType87:
+  ActionObject:
+    extends: 
+      - commons.BaseObject 
+      - Action
+    
+  ListAllActionsData:
     properties:
       has_more: optional<boolean>
-      items: optional<list<_InlinedType86>>
+      items: optional<list<ActionObject>>
       total: optional<integer>
 
-  _InlinedType88:
+  ListAllActionsResponse:
+    extends: commons.BaseResponse
     properties:
-      data: _InlinedType87
-      message: string
-      status: integer
-
-  _InlinedType89:
-    docs: >-
-      **Actions** represent a specific action a partner or customer took on your
-      platform
-    properties:
-      external_key:
-        docs: The external key of the action record in PartnerStack
-        type: optional<string>
-      target_key:
-        docs: >-
-          The identifier of the target specified in `target_type`. For a
-          customer, this is the customer key. For a partnership, it is their
-          partner key.
-        type: optional<string>
-      target_type:
-        docs: Whether to record an action under a partnership or customer
-        type: optional<_InlinedType90>
-      type:
-        docs: The type of action the partner or customer performed
-        type: optional<string>
-      value:
-        docs: The number of times the action was performed
-        type: optional<integer>
-
-  _InlinedType92:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
+      data: ListAllActionsData
 
   _InlinedType93:
     docs: >-
@@ -209,16 +173,12 @@ types:
 
   _InlinedType95:
     extends:
-      - _InlinedType92
+      - commons.BaseObject
       - _InlinedType93
 
   _InlinedType96:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType95
-      message: string
-      status: integer
 
-  _InlinedType97:
-    properties:
-      message: string
-      status: integer
+

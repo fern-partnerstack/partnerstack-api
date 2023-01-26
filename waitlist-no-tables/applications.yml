@@ -62,18 +62,6 @@ services:
           response: _InlinedType106
 
 types:
-  _InlinedType98:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType99:
     docs: >-
@@ -83,7 +71,7 @@ types:
 
   _InlinedType100:
     extends:
-      - _InlinedType98
+      - commons.BaseObject
       - _InlinedType99
 
   _InlinedType101:
@@ -91,23 +79,9 @@ types:
       items: optional<list<_InlinedType100>>
 
   _InlinedType102:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType101
-      message: string
-      status: integer
-
-  _InlinedType103:
-    docs: Standard fields that are present on all database objects.
-    properties:
-      created_at:
-        docs: Immutable Unix timestamp in milliseconds taken at time of creation
-        type: optional<integer>
-      key:
-        docs: A unique identifier used to reference the object
-        type: optional<string>
-      updated_at:
-        docs: Unix timestamp in milliseconds taken at time of last update
-        type: optional<integer>
 
   _InlinedType104:
     docs: >-
@@ -117,11 +91,10 @@ types:
 
   _InlinedType105:
     extends:
-      - _InlinedType103
+      - commons.BaseObject
       - _InlinedType104
 
   _InlinedType106:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType105
-      message: string
-      status: integer

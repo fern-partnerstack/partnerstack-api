@@ -84,7 +84,6 @@ types:
       total: optional<integer>
 
   ListActionsResponse:
+    extends: commons.BaseResponse
     properties:
       data: AllActionsData
-      message: string
-      status: integer

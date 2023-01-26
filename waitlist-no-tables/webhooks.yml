@@ -129,10 +129,9 @@ types:
       items: list<_InlinedType321>
 
   _InlinedType323:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType322
-      message: string
-      status: integer
 
   _InlinedType324:
     docs: Webhook Base
@@ -174,12 +173,11 @@ types:
       - _InlinedType328
 
   _InlinedType331:
+    extends: commons.BaseResponse
     properties:
       data:
         docs: Webhook
         type: _InlinedType330
-      message: string
-      status: integer
 
   _InlinedType332:
     docs: Standard fields that are present on all database objects.
@@ -211,12 +209,11 @@ types:
       - _InlinedType333
 
   _InlinedType336:
+    extends: commons.BaseResponse
     properties:
       data:
         docs: Webhook
         type: _InlinedType335
-      message: string
-      status: integer
 
   _InlinedType337:
     docs: Standard fields that are present on all database objects.
@@ -248,12 +245,11 @@ types:
       - _InlinedType338
 
   _InlinedType341:
+    extends: commons.BaseResponse
     properties:
       data:
         docs: Webhook
         type: _InlinedType340
-      message: string
-      status: integer
 
   _InlinedType342:
     docs: Webhook Base
@@ -295,9 +291,8 @@ types:
       - _InlinedType346
 
   _InlinedType349:
+    extends: commons.BaseResponse
     properties:
       data:
         docs: Webhook
         type: _InlinedType348
-      message: string
-      status: integer

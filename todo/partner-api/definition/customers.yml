@@ -103,7 +103,6 @@ types:
       total: optional<integer>
 
   _InlinedType12:
+    extends: commons.BaseResponse
     properties:
       data: _InlinedType11
-      message: string
-      status: integer
