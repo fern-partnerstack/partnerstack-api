@@ -62,7 +62,6 @@ services:
           response: _InlinedType106
 
 types:
-
   _InlinedType99:
     docs: >-
       Applications represent partnerstack partners attempting to join vendor
