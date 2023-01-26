@@ -113,11 +113,11 @@ services:
               type: string
           request:
             body:
-              docs: >-
-                **Leads** are submitted by your partners to let your sales team
-                know of potential accounts that they may wish to work. Partners
-                may earn comission for qualified leads, or leads that eventually
-                become closed accounts.
+              # docs: >-
+              #   **Leads** are submitted by your partners to let your sales team
+              #   know of potential accounts that they may wish to work. Partners
+              #   may earn comission for qualified leads, or leads that eventually
+              #   become closed accounts.
               properties:
                 amount:
                   docs: Lead amount in **cents**
@@ -137,7 +137,7 @@ services:
                     Reference that can be used in place of the key. Often given
                     as leads email
                   type: optional<string>
-                fields: optional<list<_InlinedType187>>
+                fields: optional<list<commons.FieldData>>
                 group_key: optional<string>
                 meta:
                   docs: >-
@@ -411,58 +411,6 @@ types:
     extends: commons.BaseResponse
     properties:
       data: _InlinedType184
-
-  _InlinedType187:
-    docs: >-
-      **FieldData** combines attributes about a field with its submitted value
-      on target object
-    properties:
-      api_name:
-        docs: >-
-          API name of this field to be used on create / update / serialization.
-          Created at time of field creation but can be edited
-        type: optional<string>
-      external_type:
-        docs: Name that can be used for external systems
-        type: optional<string>
-      field_key:
-        docs: Key of field that is presented
-        type: optional<string>
-      help_text:
-        docs: The help text that is provided for this field
-        type: optional<string>
-      hidden:
-        docs: >-
-          Whether or not this field is displayed when filling out its attached
-          form
-        type: optional<boolean>
-      internal_name:
-        docs: >-
-          Internal name of this field. Created by PartnerStack at time of field
-          creation. Used when referencing field in created objects. Cannot be
-          edited.
-        type: optional<string>
-      name:
-        docs: Name of field that is presented
-        type: optional<string>
-      placeholder_text:
-        docs: The text of the placeholder that is provided for this field
-        type: optional<string>
-      position:
-        docs: >-
-          The position that this field will be displayed in relation to others
-          on the same form (index starts at 0)
-        type: optional<integer>
-      required:
-        docs: >-
-          Whether or not this field will be required when filling out its
-          attached form
-        type: optional<boolean>
-      type:
-        docs: >-
-          The type of field that will be presented (input, picklist, number
-          ect.)
-        type: optional<string>
 
   _InlinedType188:
     docs: >-

@@ -1,12 +1,17 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
 
+imports:
+  commons: commons.yml
+  # customers: customers.yml
+  # groups: groups.yml
+
 services:
   http:
     DealsService:
       auth: true
-      base-path: ""
+      base-path: /
       endpoints:
-        "":
+        assignPartnership:
           path: /deals/{deal_key}/assignment/{partnership_key}/{stack_key}
           method: POST
           docs: Assign the provided partnership to the provided deal.
@@ -21,9 +26,9 @@ services:
             stack_key:
               docs: Personal stack key
               type: string
-          response: _InlinedType0
+          response: AssignPartnershipResponse
 
-        _unnamedOperation0:
+        getDealFile:
           path: /deals/{deal_key}/file/{file_key}
           method: GET
           docs: Get the file for the deal.
@@ -35,9 +40,9 @@ services:
             file_key:
               docs: Unique identifier of the file
               type: string
-          response: _InlinedType2
+          response: DealFileResponse
 
-        _unnamedOperation1:
+        listAllDeals:
           path: /v2/deals
           method: GET
           docs: |-
@@ -46,6 +51,7 @@ services:
                 appearing first.
           display-name: List all deals
           request:
+            name: ListAllDealsRequest
             query-parameters:
               min_created:
                 docs: >-
@@ -97,32 +103,32 @@ services:
                   item key and the subsequent call will return the prior items
                   in the list. This is mutually exclusive with `starting_after`.
                 type: optional<string>
-          response: _InlinedType15
+          response: ListAllDealsResponse
 
-        _unnamedOperation2:
+        create:
           path: /v2/deals
           method: POST
           docs: Creates a deal with desired params.
           display-name: Create a deal
           request:
-            body:
-              extends:
-                - _InlinedType16
-          response: _InlinedType30
+            name: CreateDealRequest
+            body: CreateDealRequestBody
+          response: DealResponse
 
-        _unnamedOperation3:
+        getFormTemplate:
           path: /v2/deals/form-templates
           method: GET
           docs: Fetches the specified form templates for a deal.
           display-name: Retrieve the form templates for a deal
           request:
+            name: GetFormTemplateRequest
             query-parameters:
               group_key: optional<string>
               mold_key: optional<string>
               partner_key: optional<string>
-          response: _InlinedType38
+          response: FormTemplateResponse
 
-        _unnamedOperation4:
+        get:
           path: /v2/deals/{deal_key}
           method: GET
           docs: >-
@@ -135,9 +141,9 @@ services:
                 Unique identifier of deal. Can be `external_key`, if one
                 configured for deal.
               type: string
-          response: _InlinedType50
+          response: DealResponse
 
-        _unnamedOperation5:
+        delete:
           path: /v2/deals/{deal_key}
           method: DELETE
           docs: Archives the specified deal
@@ -165,14 +171,14 @@ services:
           request: 
             name: UpdateDealRequest
             body:
-              docs: >-
-                **Deals** allow your partners to submit accounts they are
-                working to your sales team to avoid channel conflicts and earn
-                commissions for closed accounts.
-                Typically the Deals experience is handled through a CRM
-                integration like Salesforce. However you may opt to use the
-                Deals API to have PartnerStack interact with a custom data
-                warehouse rather than directly with your CRM.
+              # docs: >-
+              #   **Deals** allow your partners to submit accounts they are
+              #   working to your sales team to avoid channel conflicts and earn
+              #   commissions for closed accounts.
+              #   Typically the Deals experience is handled through a CRM
+              #   integration like Salesforce. However you may opt to use the
+              #   Deals API to have PartnerStack interact with a custom data
+              #   warehouse rather than directly with your CRM.
               properties:
                 account_name:
                   docs: Name of the account
@@ -192,7 +198,7 @@ services:
                 external_key:
                   docs: Reference that can be used in place of the key.
                   type: optional<string>
-                fields: optional<list<_InlinedType52>>
+                fields: optional<list<commons.FieldData>>
                 group_key:
                   docs: >-
                     The unique key of the group in which this deals's partner is
@@ -209,17 +215,17 @@ services:
                   docs: >-
                     Source of the deal, either 'partner' or 'vendor', defaults
                     to 'partner' if not specified
-                  type: optional<_InlinedType53>
+                  type: optional<DealSource>
                 stage:
                   docs: >-
                     Current stage of this deal. Must appear in Deals Stage list
                     found in group settings.
                   type: optional<string>
-                team: optional<_InlinedType56>
-                team_member: optional<_InlinedType59>
-          response: _InlinedType71
+                team: optional<Team>
+                team_member: optional<TeamMember>
+          response: DealResponse 
 
-        _unnamedOperation7:
+        convertDealToCustomer:
           path: /v2/deals/{deal_key}/convert
           method: POST
           docs: Converts a deal to a customer
@@ -229,6 +235,7 @@ services:
               docs: Unique identifier of deal.
               type: string
           request:
+            name: ConvertDealToCustomerRequest
             body:
               properties:
                 customer_key:
@@ -240,9 +247,9 @@ services:
                 email:
                   docs: The customers email, must be a valid email.
                   type: string
-          response: _InlinedType78
+          response: unknown #customers.CustomerResponse
 
-        _unnamedOperation8:
+        getDealFiles:
           path: /v2/deals/{deal_key}/files
           method: GET
           docs: Gets the files attached to the specified deal
@@ -251,21 +258,21 @@ services:
             deal_key:
               docs: Unique identifier of the deal
               type: string
-          response: _InlinedType81
+          response: DealFilesResponse
 
 types:
-  _InlinedType1:
+  DealFileData:
     properties:
       url:
         docs: URL for the file
         type: optional<string>
 
-  _InlinedType2:
+  DealFileResponse:
     extends: commons.BaseResponse
     properties:
-      data: _InlinedType1
+      data: DealFileData
 
-  _InlinedType4:
+  DealObject:
     docs: >-
       **Deals** allow your partners to submit accounts they are working to your
       sales team to avoid channel conflicts and earn commissions for closed
@@ -292,7 +299,7 @@ types:
       external_key:
         docs: Reference that can be used in place of the key.
         type: optional<string>
-      fields: optional<list<_InlinedType5>>
+      fields: optional<list<commons.FieldData>>
       group_key:
         docs: The unique key of the group in which this deals's partner is in
         type: optional<string>
@@ -307,121 +314,51 @@ types:
         docs: >-
           Source of the deal, either 'partner' or 'vendor', defaults to
           'partner' if not specified
-        type: optional<_InlinedType6>
+        type: optional<DealSource>
       stage:
         docs: >-
           Current stage of this deal. Must appear in Deals Stage list found in
           group settings.
         type: optional<string>
-      team: optional<_InlinedType9>
-      team_member: optional<_InlinedType12>
+      team: 
+        docs: Standard fields that are present on all database objects.
+        type: optional<Team>
+      team_member: optional<TeamMember>
 
-  _InlinedType13:
+  Team: 
+    extends: commons.BaseObject 
+    properties:
+      name: 
+        type: optional<string>
+        docs: The name of the partner team 
+      
+  Deal:
     extends:
       - commons.BaseObject
-      - _InlinedType4
+      - DealObject
 
-  _InlinedType14:
+  ListAllDealsData:
     properties:
       has_more: optional<boolean>
-      items: optional<list<_InlinedType13>>
+      items: optional<list<Deal>>
 
-  _InlinedType15:
+  ListAllDealsResponse:
     extends: commons.BaseResponse
     properties:
-      data: _InlinedType14
+      data: ListAllDealsData
 
-  _InlinedType16:
-    properties:
-      account_name:
-        docs: Name of the account
-        type: string
-      amount:
-        docs: Deal amount in **cents**
-        type: integer
-      close_date:
-        docs: Expected close date of deal as YYYY-MM-DD
-        type: string
-      contact_first_name:
-        docs: First name of the account's contact
-        type: string
-      contact_last_name:
-        docs: Last name of the account's contact
-        type: string
-      fields: optional<list<_InlinedType17>>
-      source:
-        docs: >-
-          Source of the deal, either 'partner' or 'vendor', defaults to
-          'partner' if not specified
-        type: optional<_InlinedType18>
-      stage:
-        docs: >-
-          Current stage of this deal. Must appear in Deals Stage list found in
-          group settings.
-        type: string
-
-  _InlinedType20:
-    docs: >-
-      **Deals** allow your partners to submit accounts they are working to your
-      sales team to avoid channel conflicts and earn commissions for closed
-      accounts.
-      Typically the Deals experience is handled through a CRM integration like
-      Salesforce. However you may opt to use the Deals API to have PartnerStack
-      interact with a custom data warehouse rather than directly with your CRM.
-    properties:
-      account_name:
-        docs: Name of the account
-        type: optional<string>
-      amount:
-        docs: Deal amount in **cents**
-        type: optional<integer>
-      close_date:
-        docs: Expected close date of deal as YYYY-MM-DD
-        type: optional<string>
-      contact_first_name:
-        docs: First name of the account's contact
-        type: optional<string>
-      contact_last_name:
-        docs: Last name of the account's contact
-        type: optional<string>
-      external_key:
-        docs: Reference that can be used in place of the key.
-        type: optional<string>
-      fields: optional<list<_InlinedType21>>
-      group_key:
-        docs: The unique key of the group in which this deals's partner is in
-        type: optional<string>
-      lost_reason:
-        docs: Reason for which the deal was lost.
-        type: optional<string>
-      mold_key: optional<string>
-      partner_key:
-        docs: The unique key of the partner who owns this deal
-        type: optional<string>
-      source:
-        docs: >-
-          Source of the deal, either 'partner' or 'vendor', defaults to
-          'partner' if not specified
-        type: optional<_InlinedType22>
-      stage:
-        docs: >-
-          Current stage of this deal. Must appear in Deals Stage list found in
-          group settings.
-        type: optional<string>
-      team: optional<_InlinedType25>
-      team_member: optional<_InlinedType28>
-
-  _InlinedType29:
+  
+  DealResponseData:
     extends:
       - commons.BaseObject
-      - _InlinedType20
+      - DealObject
 
-  _InlinedType30:
+  DealResponse:
     extends: commons.BaseResponse
     properties:
-      data: _InlinedType29
+      data: DealResponseData
 
-  _InlinedType32:
+  FormTemplate:
     docs: >-
       **FormTemplates** are configurable on many of our supported objects. These
       forms act as a way to collect additional information on object create
@@ -429,8 +366,8 @@ types:
       description:
         docs: A description for users to better understand the form
         type: optional<string>
-      fields: optional<list<_InlinedType33>>
-      groups: optional<list<_InlinedType36>>
+      fields: optional<list<commons.FieldData>>
+      groups: optional<list<unknown>> #optional<list<groups.Group>>
       name:
         docs: The presented name of this form
         type: optional<string>
@@ -441,166 +378,15 @@ types:
         docs: The type of object within PartnerStack that this form translates to
         type: optional<string>
 
-  _InlinedType37:
+  FormTemplateData:
     extends:
       - commons.BaseObject
-      - _InlinedType32
+      - FormTemplate
 
-  _InlinedType38:
+  FormTemplateResponse:
     extends: commons.BaseResponse
     properties:
-      data: list<_InlinedType37>
-
-  _InlinedType40:
-    docs: >-
-      **Deals** allow your partners to submit accounts they are working to your
-      sales team to avoid channel conflicts and earn commissions for closed
-      accounts.
-      Typically the Deals experience is handled through a CRM integration like
-      Salesforce. However you may opt to use the Deals API to have PartnerStack
-      interact with a custom data warehouse rather than directly with your CRM.
-    properties:
-      account_name:
-        docs: Name of the account
-        type: optional<string>
-      amount:
-        docs: Deal amount in **cents**
-        type: optional<integer>
-      close_date:
-        docs: Expected close date of deal as YYYY-MM-DD
-        type: optional<string>
-      contact_first_name:
-        docs: First name of the account's contact
-        type: optional<string>
-      contact_last_name:
-        docs: Last name of the account's contact
-        type: optional<string>
-      external_key:
-        docs: Reference that can be used in place of the key.
-        type: optional<string>
-      fields: optional<list<_InlinedType41>>
-      group_key:
-        docs: The unique key of the group in which this deals's partner is in
-        type: optional<string>
-      lost_reason:
-        docs: Reason for which the deal was lost.
-        type: optional<string>
-      mold_key: optional<string>
-      partner_key:
-        docs: The unique key of the partner who owns this deal
-        type: optional<string>
-      source:
-        docs: >-
-          Source of the deal, either 'partner' or 'vendor', defaults to
-          'partner' if not specified
-        type: optional<_InlinedType42>
-      stage:
-        docs: >-
-          Current stage of this deal. Must appear in Deals Stage list found in
-          group settings.
-        type: optional<string>
-      team: optional<_InlinedType45>
-      team_member: optional<_InlinedType48>
-
-  _InlinedType49:
-    extends:
-      - commons.BaseObject 
-      - _InlinedType40
-
-  _InlinedType50:
-    extends: commons.BaseResponse
-    properties:
-      data: _InlinedType49
-
-  _InlinedType52:
-    docs: >-
-      **FieldData** combines attributes about a field with its submitted value
-      on target object
-    properties:
-      api_name:
-        docs: >-
-          API name of this field to be used on create / update / serialization.
-          Created at time of field creation but can be edited
-        type: optional<string>
-      external_type:
-        docs: Name that can be used for external systems
-        type: optional<string>
-      field_key:
-        docs: Key of field that is presented
-        type: optional<string>
-      help_text:
-        docs: The help text that is provided for this field
-        type: optional<string>
-      hidden:
-        docs: >-
-          Whether or not this field is displayed when filling out its attached
-          form
-        type: optional<boolean>
-      internal_name:
-        docs: >-
-          Internal name of this field. Created by PartnerStack at time of field
-          creation. Used when referencing field in created objects. Cannot be
-          edited.
-        type: optional<string>
-      name:
-        docs: Name of field that is presented
-        type: optional<string>
-      placeholder_text:
-        docs: The text of the placeholder that is provided for this field
-        type: optional<string>
-      position:
-        docs: >-
-          The position that this field will be displayed in relation to others
-          on the same form (index starts at 0)
-        type: optional<integer>
-      required:
-        docs: >-
-          Whether or not this field will be required when filling out its
-          attached form
-        type: optional<boolean>
-      type:
-        docs: >-
-          The type of field that will be presented (input, picklist, number
-          ect.)
-        type: optional<string>
-
-  _InlinedType53:
-    docs: >-
-      Source of the deal, either 'partner' or 'vendor', defaults to 'partner' if
-      not specified
-    enum:
-      - partner
-      - vendor
-
-  _InlinedType55:
-    docs: Details of team used in public API.
-    properties:
-      name:
-        docs: The name of the partner team
-        type: optional<string>
-
-  _InlinedType56:
-    extends:
-      - commons.BaseObject 
-      - _InlinedType55
-
-  _InlinedType58:
-    docs: Details of team member used in public API.
-    properties:
-      email:
-        docs: Email of the partner team member
-        type: optional<string>
-      first_name:
-        docs: First name of the partner team member
-        type: optional<string>
-      last_name:
-        docs: Last name of the partner team member
-        type: optional<string>
-
-  _InlinedType59:
-    extends:
-      - commons.BaseObject 
-      - _InlinedType58
+      data: list<FormTemplateData>
 
   _InlinedType61:
     docs: >-
@@ -629,7 +415,7 @@ types:
       external_key:
         docs: Reference that can be used in place of the key.
         type: optional<string>
-      fields: optional<list<_InlinedType62>>
+      fields: optional<list<commons.FieldData>>
       group_key:
         docs: The unique key of the group in which this deals's partner is in
         type: optional<string>
@@ -644,57 +430,115 @@ types:
         docs: >-
           Source of the deal, either 'partner' or 'vendor', defaults to
           'partner' if not specified
-        type: optional<_InlinedType63>
+        type: optional<DealSource>
       stage:
         docs: >-
           Current stage of this deal. Must appear in Deals Stage list found in
           group settings.
         type: optional<string>
-      team: optional<_InlinedType66>
-      team_member: optional<_InlinedType69>
+      team: optional<Team>
+      team_member: optional<TeamMember>
 
-  _InlinedType70:
+  DealDetailsData:
     extends:
       - commons.BaseObject
-      - _InlinedType61
+      - DealDetails
 
-  _InlinedType71:
+  DealDetails:
     extends: commons.BaseResponse
     properties:
-      data: _InlinedType70
+      data: DealDetailsData
 
-  _InlinedType73:
-    docs: >-
-      **Customers** represent the users who have been referred by a **Partner**.
-      **Customers** are linked to the **Partner** that referred them through a
-      **partner_key** which must be provided on the Create Customer endpoint.
-      The **partner_key** is retrievable from `growsumo.data.partner_key`, which
-      is created by the `PartnerStackJS` snippet.
-    extends:
-      - _InlinedType74
-      - _InlinedType75
-
-  _InlinedType77:
-    extends:
-      - commons.BaseObject
-      - _InlinedType73
-
-  _InlinedType78:
-    extends: commons.BaseResponse
-    properties:
-      data: _InlinedType77
-
-  _InlinedType79:
+  DealFile:
     properties:
       field_key: optional<string>
       key: optional<string>
       name: optional<string>
 
-  _InlinedType80:
+  DealFilesData:
     properties:
-      deal_files: optional<list<_InlinedType79>>
+      deal_files: optional<list<DealFile>>
 
-  _InlinedType81:
+  DealFilesResponse:
     extends: commons.BaseResponse
     properties:
-      data: _InlinedType80
+      data: DealFilesData
+
+  AssignPartnershipResponse: 
+    extends: commons.BaseResponse
+
+  DealSource: 
+    docs: Source of the deal, defaults to 'partner' if not specified
+    enum: 
+       - partner
+       - vendor
+
+  TeamMember: 
+    extends: commons.BaseObject
+    properties:
+      email: 
+        docs: Email of the partner team member
+        type: optional<string>
+      first_name: 
+        docs: First name of the partner team member
+        type: optional<string>
+      last_name: 
+        docs: Last name of the partner team member
+        type: optional<string>
+      
+  CreateDealRequestBody: 
+    union: 
+      group_key: GroupKey 
+      partner_key: PartnerKey
+
+  BaseKey: 
+    properties:
+      account_name:
+        docs: Name of the account
+        type: optional<string>
+      amount:
+        docs: Deal amount in **cents**
+        type: optional<integer>
+      close_date:
+        docs: Expected close date of deal as YYYY-MM-DD
+        type: optional<string>
+      contact_first_name:
+        docs: First name of the account's contact
+        type: optional<string>
+      contact_last_name:
+        docs: Last name of the account's contact
+        type: optional<string>
+      external_key:
+        docs: Reference that can be used in place of the key.
+        type: optional<string>
+      fields: optional<list<commons.FieldData>>
+      lost_reason:
+        docs: Reason for which the deal was lost.
+        type: optional<string>
+      mold_key: optional<string>
+      source:
+        docs: >-
+          Source of the deal, either 'partner' or 'vendor', defaults
+          to 'partner' if not specified
+        type: optional<DealSource>
+      stage:
+        docs: >-
+          Current stage of this deal. Must appear in Deals Stage list
+          found in group settings.
+        type: optional<string>
+
+  GroupKey: 
+    extends: BaseKey 
+    properties:  
+      group_key: 
+        type: string 
+        docs: The unique key of the group in which this deals's prospective partner is. Required if 'source' is specified as 'vendor'
+    
+  PartnerKey: 
+    extends: BaseKey
+    properties:
+      partner_key: 
+        type: string 
+        docs: The unique key of the partner who owns this deal. Required if 'source' is specified as 'partner'.
+      
+  
