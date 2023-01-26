@@ -2,10 +2,10 @@ groups:
   external:
     generators:
       - name: fernapi/fern-typescript-sdk
-        version: 0.0.251
+        version: 0.0.262
         output:
           location: npm
-          package-name: '@fern-api/primer'
+          package-name: '@fern-api/partnerstack'
           token: ${FERN_NPM_TOKEN}
         github:
-          repository: fern-primer/primer-node
+          repository: fern-partnerstack/partnerstack-node
