@@ -3,7 +3,6 @@
 Tagging a release on this repository will update the:
 
 - [Node.js SDK repo](https://github.com/fern-partnerstack/partnerstack-node)
-- [OpenAPI spec repo](https://github.com/fern-partnerstack/partnerstack-openapi)
 - _More SDKs to come..._
 
 ## What is in this repository?
