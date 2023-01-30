@@ -19,7 +19,7 @@ types:
       message: string
       status: integer
 
-  BaseRequestBody: 
+  BaseRequestBody:
     docs: >-
       **Actions** represent a specific action a partner or customer took on your
       platform
@@ -29,9 +29,8 @@ types:
         type: optional<string>
       target_key:
         docs: >-
-          The identifier of the target specified in `target_type`. For a
-          customer, this is the customer key. For a partnership, it is their
-          partner key.
+          The identifier of the target specified in `target_type`. For a customer,
+          this is the customer key. For a partnership, it is their partner key.
         type: optional<string>
       target_type: optional<TargetType>
       type:
@@ -41,27 +40,27 @@ types:
         docs: The number of times the action was performed
         type: optional<integer>
 
-  Company: 
+  Company:
     docs: Base schema representation of a customer
     properties:
-      key: 
+      key:
         type: optional<string>
-        docs: Unique key of this company 
-      name: 
+        docs: Unique key of this company
+      name:
         type: optional<string>
         docs: The name of this company
 
-  Customer: 
+  Customer:
     docs: Base schema representation of a customer
     properties:
-      key: 
+      key:
         type: optional<string>
-        docs: Unique key of this customer 
+        docs: Unique key of this customer
       sub_ids: optional<list<string>>
 
-  TargetType: 
+  TargetType:
     docs: Whether to record an action under a partnership or customer
-    enum: 
+    enum:
       - partnership
       - customer
 
@@ -86,8 +85,7 @@ types:
         type: optional<string>
       hidden:
         docs: >-
-          Whether or not this field is displayed when filling out its attached
-          form
+          Whether or not this field is displayed when filling out its attached form
         type: optional<boolean>
       internal_name:
         docs: >-
@@ -103,16 +101,15 @@ types:
         type: optional<string>
       position:
         docs: >-
-          The position that this field will be displayed in relation to others
-          on the same form (index starts at 0)
+          The position that this field will be displayed in relation to others on
+          the same form (index starts at 0)
         type: optional<integer>
       required:
         docs: >-
-          Whether or not this field will be required when filling out its
-          attached form
+          Whether or not this field will be required when filling out its attached
+          form
         type: optional<boolean>
       type:
         docs: >-
-          The type of field that will be presented (input, picklist, number
-          ect.)
+          The type of field that will be presented (input, picklist, number ect.)
         type: optional<string>

@@ -1,6 +1,6 @@
 name: api
-auth: basic 
+auth: basic
 display-name: Vendor API
 environments:
-  Production: https://api.partnerstack.com/api 
+  Production: https://api.partnerstack.com/api
 default-environment: Production

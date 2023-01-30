@@ -3,100 +3,96 @@
 imports:
   commons: commons.yml
 
-services:
-  http:
-    ActionsService:
-      auth: true
-      base-path: /v2/actions
-      endpoints:
-        listAllActions:
-          path: ""
-          method: GET
-          docs: >-
-            Returns a list of your actions. The actions are returned sorted by
-            creation date by default, with the most recent actions appearing
-            first.
-          display-name: List all actions
-          request:
-            name: ListAllActionsRequest
-            query-parameters:
-              min_created:
-                docs: >-
-                  Applies a minimum epoch timestamp (ms) filter to the response
-                  `created_at`.
-                type: optional<integer>
-              max_created:
-                docs: >-
-                  Applies a maximum epoch timestamp (ms) filter to the response
-                  `created_at`.
-                type: optional<integer>
-              min_updated:
-                docs: >-
-                  Applies a minimum epoch timestamp (ms) filter to the response
-                  `updated_at`.
-                type: optional<integer>
-              max_updated:
-                docs: >-
-                  Applies a maximum epoch timestamp (ms) filter to the response
-                  `updated_at`.
-                type: optional<integer>
-              partnership_key:
-                docs: Partnership key in which the results are filtered by.
-                type: optional<string>
-              action_type:
-                docs: Will filter for actions with the specified name.
-                type: optional<string>
-              order_by:
-                docs: >-
-                  The field in which the results are ordered by. A `-` prefix
-                  denotes that the results are in descending order.
-                type: optional<string>
-              limit:
-                docs: >-
-                  A limit on the number of items to be returned. Limits can
-                  range between 1 and 250, and the default is 10.
-                type: optional<integer>
-              starting_after:
-                docs: >-
-                  A cursor for use in pagination, `starting_after` takes in an
-                  item key and the subsequent call will return the following
-                  items in the list. This is mutually exclusive with
-                  `ending_before`.
-                type: optional<string>
-              ending_before:
-                docs: >-
-                  A cursor for use in pagination, `ending_before` takes in an
-                  item key and the subsequent call will return the prior items
-                  in the list. This is mutually exclusive with `starting_after`.
-                type: optional<string>
-          response: ListAllActionsResponse
+service:
+  auth: true
+  base-path: /v2/actions
+  endpoints:
+    listAllActions:
+      path: ""
+      method: GET
+      docs: >-
+        Returns a list of your actions. The actions are returned sorted by
+        creation date by default, with the most recent actions appearing first.
+      display-name: List all actions
+      request:
+        name: ListAllActionsRequest
+        query-parameters:
+          min_created:
+            docs: >-
+              Applies a minimum epoch timestamp (ms) filter to the response
+              `created_at`.
+            type: optional<integer>
+          max_created:
+            docs: >-
+              Applies a maximum epoch timestamp (ms) filter to the response
+              `created_at`.
+            type: optional<integer>
+          min_updated:
+            docs: >-
+              Applies a minimum epoch timestamp (ms) filter to the response
+              `updated_at`.
+            type: optional<integer>
+          max_updated:
+            docs: >-
+              Applies a maximum epoch timestamp (ms) filter to the response
+              `updated_at`.
+            type: optional<integer>
+          partnership_key:
+            docs: Partnership key in which the results are filtered by.
+            type: optional<string>
+          action_type:
+            docs: Will filter for actions with the specified name.
+            type: optional<string>
+          order_by:
+            docs: >-
+              The field in which the results are ordered by. A `-` prefix denotes that
+              the results are in descending order.
+            type: optional<string>
+          limit:
+            docs: >-
+              A limit on the number of items to be returned. Limits can range between 1
+              and 250, and the default is 10.
+            type: optional<integer>
+          starting_after:
+            docs: >-
+              A cursor for use in pagination, `starting_after` takes in an item key and
+              the subsequent call will return the following items in the list.
+              This is mutually exclusive with `ending_before`.
+            type: optional<string>
+          ending_before:
+            docs: >-
+              A cursor for use in pagination, `ending_before` takes in an item key and
+              the subsequent call will return the prior items in the list. This
+              is mutually exclusive with `starting_after`.
+            type: optional<string>
+      response: ListAllActionsResponse
 
-        record:
-          path: ""
-          method: POST
-          docs: >-
-            Records a new action taken by a given partner or customer, and the
-            number of times that action was performed.
-          display-name: Record action
-          request:
-            name: RecordActionRequest
-            body:
-              extends:
-                - commons.BaseRequestBody
-          response: RecordActionResponse
+    record:
+      path: ""
+      method: POST
+      docs: >-
+        Records a new action taken by a given partner or customer, and the number
+        of times that action was performed.
+      display-name: Record action
+      request:
+        name: RecordActionRequest
+        body:
+          extends:
+            - commons.BaseRequestBody
+      response: RecordActionResponse
 
-        archive:
-          path: /{action_key}
-          method: DELETE
-          docs: >-
-            Archives an action. Any associated rewards or drip rewards will be
-            archived as well.
-          display-name: Archive an action
-          path-parameters:
-            action_key:
-              docs: Unique identifier for actions
-              type: string
-          response: ArchiveActionResponse
+    archive:
+      path: /{action_key}
+      method: DELETE
+      docs: >-
+        Archives an action. Any associated rewards or drip rewards will be
+        archived as well.
+      display-name: Archive an action
+      path-parameters:
+        action_key:
+          docs: Unique identifier for actions
+          type: string
+      response: ArchiveActionResponse
 
 types:
   Action:
@@ -122,10 +118,10 @@ types:
         type: optional<integer>
 
   ActionObject:
-    extends: 
-      - commons.BaseObject 
+    extends:
+      - commons.BaseObject
       - Action
-    
+
   ListAllActionsData:
     properties:
       has_more: optional<boolean>
@@ -147,9 +143,8 @@ types:
         type: optional<string>
       target_key:
         docs: >-
-          The identifier of the target specified in `target_type`. For a
-          customer, this is the customer key. For a partnership, it is their
-          partner key.
+          The identifier of the target specified in `target_type`. For a customer,
+          this is the customer key. For a partnership, it is their partner key.
         type: optional<string>
       target_type:
         docs: Whether to record an action under a partnership or customer
@@ -171,7 +166,5 @@ types:
     properties:
       data: RecordActionResponseData
 
-  ArchiveActionResponse: 
+  ArchiveActionResponse:
     extends: commons.BaseResponse
-
-
