@@ -14,7 +14,7 @@ This repository contains
 
 ## What is in the API Definition?
 
-The API Definition contains information about what endpoints, types, and errors are used in the API. The definition is broken into smaller files such as [deal.yml](fern/api/definition/deal.yml).
+The API Definition contains information about what endpoints, types, and errors are used in the API. The definition is broken into smaller files such as [deals.yml](fern/api/definition/deals.yml).
 
 To make sure that the definition is valid, you can use the Fern CLI.
 
