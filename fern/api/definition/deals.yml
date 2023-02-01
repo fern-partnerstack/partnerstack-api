@@ -496,13 +496,16 @@ types:
         docs: Last name of the partner team member
         type: optional<string>
 
-  CreateDealRequestBody:
-    union:
-      group_key: GroupKey
-      partner_key: PartnerKey
+  CreateDealRequestBody: BaseKey
 
   BaseKey:
     properties:
+      group_key:
+        type: optional<string>
+        docs: A group key 
+      partner_key: 
+        type: optional<string>
+        docs: A partner key
       account_name:
         docs: Name of the account
         type: optional<string>
@@ -537,21 +540,6 @@ types:
           settings.
         type: optional<string>
 
-  GroupKey:
-    extends: BaseKey
-    properties:
-      group_key:
-        type: string
-        docs: The unique key of the group in which this deals's prospective partner is.
-          Required if 'source' is specified as 'vendor'
-
-  PartnerKey:
-    extends: BaseKey
-    properties:
-      partner_key:
-        type: string
-        docs: The unique key of the partner who owns this deal. Required if 'source' is
-          specified as 'partner'.
   Group:
     docs: >-
       **Groups** are a way to segment partners within PartnerStack to
